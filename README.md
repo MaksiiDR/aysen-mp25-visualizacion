@@ -47,10 +47,11 @@ Este repositorio contiene el flujo completo y reproducible para el análisis vis
 │   ├── referencias.bib             # Bibliografía en formato IEEE numérico
 │   └── figures/                    # 3 figuras en alta resolución (300 dpi)
 ├── presentacion/
+│   ├── presentacion_aysen_mp25.html                # Presentación web interactiva estilo editorial Grove (13 slides, 1920×1080)
 │   ├── Presentacion_Final_Grupo2_Aysen_MP25.pptx
 │   ├── Presentacion_Final_Grupo2_Aysen_MP25.pdf
-│   ├── guion_8min.md               # Distribución de tiempos (8:00 min) y respuestas preparadas
-│   └── figures/                    # Gráficos widescreen a 300 dpi
+│   ├── guion_8min.md                               # Distribución de tiempos (8:00 min) y respuestas preparadas
+│   └── figures/                                    # Gráficos widescreen a 300 dpi
 └── requirements.txt
 ```
 

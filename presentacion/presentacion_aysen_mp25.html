@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP2,5 y Clima en la Región de Aysén — Presentación Final (Grupo N° 2)</title>
+
+    <!-- Google Fonts: Grove Typography Stack (Playfair Display 400, Jost 300, JetBrains Mono 300) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&family=Jost:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           THEME VARIABLES — GROVE EDITORIAL SYSTEM
+           Edit :root variables to adjust palette/type
+           =========================================== */
+        :root {
+            --stage-bg: #0d160e;
+            --slide-bg: #192b1b;
+
+            /* Grove Palette */
+            --c-bg: #192b1b;
+            --c-bg-alt: #1e3221;
+            --c-bg-light: #e8e4d6;
+            --c-bg-light-alt: #dedad0;
+            --c-fg: #d4cfbf;
+            --c-fg-2: rgba(212, 207, 191, 0.66);
+            --c-fg-3: rgba(212, 207, 191, 0.36);
+            --c-fg-light: #192b1b;
+            --c-fg-light-2: rgba(25, 43, 27, 0.64);
+            --c-fg-light-3: rgba(25, 43, 27, 0.36);
+            --c-accent: #c8524a;
+            --c-border: rgba(212, 207, 191, 0.14);
+            --c-border-light: rgba(25, 43, 27, 0.16);
+            --c-wm-dark: rgba(212, 207, 191, 0.055);
+            --c-wm-light: rgba(25, 43, 27, 0.055);
+
+            /* Typography (1920x1080 fixed stage coordinates) */
+            --f-serif: 'Playfair Display', Georgia, serif;
+            --f-sans: 'Jost', sans-serif;
+            --f-mono: 'JetBrains Mono', monospace;
+
+            /* Spacing (1920x1080) */
+            --pad-x: 132px;
+            --pad-y: 62px;
+            --rule-short: 44px;
+
+            /* Motion */
+            --ease-slide: cubic-bezier(0.77, 0, 0.175, 1);
+            --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+            --dur-enter: 0.7s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===========================================
+           FIXED 16:9 STAGE: MANDATORY BASE STYLES
+           Include this ENTIRE file in every presentation.
+           Slides are authored at 1920×1080 and scaled as a whole.
+           =========================================== */
+
+        /* 1. Lock the browser viewport */
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: var(--stage-bg, #000);
+        }
+
+        /* 2. Full-window deck viewport */
+        .deck-viewport {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: var(--stage-bg, #000);
+        }
+
+        /* 3. Fixed 16:9 design canvas.
+           JavaScript sets transform: translate(...) scale(...). */
+        .deck-stage {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            transform-origin: 0 0;
+            background: var(--slide-bg, #fff);
+        }
+
+        /* 4. Slides stack inside the fixed stage.
+           Content must be laid out at 1920×1080, not reflowed per device. */
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--c-bg);
+            color: var(--c-fg);
+            font-family: var(--f-sans);
+            font-weight: 300;
+            transition: opacity 0.45s var(--ease-slide), visibility 0.45s var(--ease-slide);
+        }
+
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        /* 5. Keep media inside authored slide bounds */
+        img,
+        video,
+        canvas,
+        svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* 6. Presentation chrome stays outside the slide design system */
+        .deck-controls {
+            position: fixed;
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        /* 7. Print one fixed-size slide per page */
+        @media print {
+            html,
+            body {
+                width: 1920px;
+                height: auto;
+                overflow: visible;
+                background: #fff;
+            }
+
+            .deck-viewport {
+                position: static;
+                overflow: visible;
+                background: #fff;
+            }
+
+            .deck-stage {
+                position: static;
+                width: auto;
+                height: auto;
+                transform: none !important;
+                background: none;
+            }
+
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px;
+                height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+
+            .slide:last-child {
+                break-after: auto;
+                page-break-after: auto;
+            }
+
+            .deck-controls,
+            .edit-hotzone,
+            .edit-toggle,
+            .notes-drawer {
+                display: none !important;
+            }
+        }
+
+        /* 8. Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* ===========================================
+           GROVE SURFACE VARIANTS & FRAME ARCHITECTURE
+           =========================================== */
+        .slide--light {
+            background: var(--c-bg-light);
+            color: var(--c-fg-light);
+        }
+
+        .slide-inner {
+            position: relative;
+            width: 1920px;
+            height: 1080px;
+            padding: var(--pad-y) var(--pad-x);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 2;
+        }
+
+        /* Top & bottom 1px hairline chrome bars */
+        .slide-chrome,
+        .slide-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--f-mono);
+            font-weight: 300;
+            font-size: 14px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--c-fg-2);
+            flex-shrink: 0;
+        }
+
+        .slide--light .slide-chrome,
+        .slide--light .slide-foot {
+            color: var(--c-fg-light-2);
+        }
+
+        .slide-chrome {
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--c-border);
+        }
+
+        .slide--light .slide-chrome {
+            border-bottom-color: var(--c-border-light);
+        }
+
+        .slide-foot {
+            padding-top: 16px;
+            border-top: 1px solid var(--c-border);
+        }
+
+        .slide--light .slide-foot {
+            border-top-color: var(--c-border-light);
+        }
+
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
+            padding: 28px 0;
+        }
+
+        /* Massive 6%-opacity serif watermark numeral */
+        .grove-num {
+            position: absolute;
+            right: var(--pad-x);
+            bottom: -48px;
+            font-family: var(--f-serif);
+            font-weight: 400;
+            font-size: 360px;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            color: var(--c-wm-dark);
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+        }
+
+        .slide--light .grove-num {
+            color: var(--c-wm-light);
+        }
+
+        /* ===========================================
+           GROVE TYPOGRAPHY & SIGNATURE ELEMENTS
+           =========================================== */
+        .kicker {
+            font-family: var(--f-mono);
+            font-weight: 300;
+            font-size: 14px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--c-accent);
+        }
+
+        .rule-coral {
+            width: var(--rule-short);
+            height: 1px;
+            background: var(--c-accent);
+            margin: 14px 0 20px 0;
+        }
+
+        .rule-full {
+            width: 100%;
+            height: 1px;
+            background: var(--c-border);
+            margin: 22px 0;
+        }
+
+        .slide--light .rule-full {
+            background: var(--c-border-light);
+        }
+
+        /* Playfair Display — STRICTLY WEIGHT 400 (NEVER BOLD) */
+        .display-title {
+            font-family: var(--f-serif);
+            font-weight: 400;
+            font-size: 108px;
+            line-height: 1.05;
+            letter-spacing: -0.015em;
+            color: var(--c-fg);
+        }
+
+        .h1-statement {
+            font-family: var(--f-serif);
+            font-weight: 400;
+            font-size: 74px;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            color: var(--c-fg);
+            max-width: 1520px;
+        }
+
+        .h2 {
+            font-family: var(--f-serif);
+            font-weight: 400;
+            font-size: 56px;
+            line-height: 1.16;
+            letter-spacing: -0.01em;
+        }
+
+        .h3 {
+            font-family: var(--f-serif);
+            font-weight: 400;
+            font-size: 34px;
+            line-height: 1.25;
+        }
+
+        /* Signature italic terracotta coral accent inside ANY serif headline */
+        .display-title em,
+        .h1-statement em,
+        .h2 em,
+        .h3 em,
+        .quote-text em {
+            color: var(--c-accent);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .lead {
+            font-family: var(--f-sans);
+            font-weight: 300;
+            font-size: 27px;
+            line-height: 1.55;
+            color: var(--c-fg-2);
+        }
+
+        .slide--light .lead {
+            color: var(--c-fg-light-2);
+        }
+
+        .body-text {
+            font-family: var(--f-sans);
+            font-weight: 300;
+            font-size: 23px;
+            line-height: 1.6;
+        }
+
+        .muted {
+            color: var(--c-fg-2);
+        }
+
+        .slide--light .muted {
+            color: var(--c-fg-light-2);
+        }
+
+        .accent {
+            color: var(--c-accent);
+        }
+
+        /* Em-dash universal bullet list */
+        .em-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .em-list li {
+            display: grid;
+            grid-template-columns: 36px 1fr;
+            align-items: start;
+            font-size: 23px;
+            line-height: 1.52;
+            font-weight: 300;
+        }
+
+        .em-list li::before {
+            content: "—";
+            font-family: var(--f-mono);
+            font-weight: 300;
+            color: var(--c-accent);
+            font-size: 22px;
+            line-height: 1.52;
+        }
+
+        .em-lead {
+            font-weight: 400;
+            color: var(--c-fg);
+        }
+
+        .slide--light .em-lead {
+            color: var(--c-fg-light);
+        }
+
+        /* Grove Stat Blocks (flat hairline only, zero fill) */
+        .stat-grid {
+            display: grid;
+            gap: 44px;
+        }
+
+        .stat-grid--3 { grid-template-columns: repeat(3, 1fr); }
+        .stat-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+        .grove-stat {
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--c-border);
+        }
+
+        .slide--light .grove-stat {
+            border-bottom-color: var(--c-border-light);
+        }
+
+        .grove-stat__val {
+            font-family: var(--f-serif);
+            font-weight: 400;
+            font-size: 68px;
+            line-height: 1.04;
+            letter-spacing: -0.02em;
+            color: var(--c-accent);
+            margin-bottom: 10px;
+        }
+
+        .grove-stat__val--sm {
+            font-size: 54px;
+        }
+
+        .grove-stat__lbl {
+            font-family: var(--f-mono);
+            font-weight: 300;
+            font-size: 13px;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--c-fg);
+            margin-bottom: 6px;
+        }
+
+        .slide--light .grove-stat__lbl {
+            color: var(--c-fg-light);
+        }
+
+        .grove-stat__sub {
+            font-family: var(--f-sans);
+            font-weight: 300;
+            font-size: 18px;
+            line-height: 1.4;
+            color: var(--c-fg-2);
+        }
+
+        .slide--light .grove-stat__sub {
+            color: var(--c-fg-light-2);
+        }
+
+        /* Architectural hairline grids */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        .two-col--divided > :last-child {
+            padding-left: 56px;
+            border-left: 1px solid var(--c-border);
+        }
+
+        .slide--light .two-col--divided > :last-child {
+            border-left-color: var(--c-border-light);
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .three-col__item {
+            padding: 0 36px;
+            border-left: 1px solid var(--c-border);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .three-col__item:first-child {
+            padding-left: 0;
+            border-left: none;
+        }
+
+        .three-col__item:last-child {
+            padding-right: 0;
+        }
+
+        .slide--light .three-col__item {
+            border-left-color: var(--c-border-light);
+        }
+
+        /* Quoted observation inset (flat, hairline left border) */
+        .obs-quote {
+            font-family: var(--f-serif);
+            font-style: italic;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 1.45;
+            color: var(--c-fg-2);
+            padding: 12px 0 12px 18px;
+            border-left: 1px solid var(--c-accent);
+        }
+
+        /* Printed-on-parchment scientific exhibit frame */
+        .exhibit-frame {
+            border-top: 1px solid var(--c-border-light);
+            border-bottom: 1px solid var(--c-border-light);
+            background: var(--c-bg-light);
+            padding: 18px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .exhibit-img {
+            display: block;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        /* Editorial hairline table */
+        .grove-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--f-sans);
+            font-weight: 300;
+        }
+
+        .grove-table th {
+            font-family: var(--f-mono);
+            font-weight: 300;
+            font-size: 13px;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--c-accent);
+            color: var(--c-fg-2);
+        }
+
+        .grove-table td {
+            font-size: 21px;
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--c-border);
+            color: var(--c-fg);
+        }
+
+        .grove-table tr.is-discarded td {
+            color: var(--c-fg-3);
+        }
+
+        .grove-table td.num,
+        .grove-table th.num {
+            text-align: right;
+            font-family: var(--f-mono);
+            font-size: 18px;
+        }
+
+        .grove-table td.score-hi {
+            color: var(--c-accent);
+            font-family: var(--f-mono);
+            font-weight: 400;
+            text-align: right;
+        }
+
+        /* Callout box (research question / repo bar) */
+        .editorial-box {
+            border: 1px solid var(--c-border-light);
+            padding: 28px 34px;
+            background: var(--c-bg-light-alt);
+        }
+
+        .editorial-box--dark {
+            border: 1px solid var(--c-border);
+            padding: 24px 30px;
+            background: var(--c-bg-alt);
+        }
+
+        .quote-mark {
+            font-family: var(--f-serif);
+            font-weight: 400;
+            font-size: 112px;
+            line-height: 0.5;
+            color: var(--c-accent);
+            margin-bottom: 16px;
+        }
+
+        .quote-text {
+            font-family: var(--f-serif);
+            font-style: italic;
+            font-weight: 400;
+            font-size: 31px;
+            line-height: 1.38;
+            color: var(--c-fg-light);
+        }
+
+        /* Exhibit bottom strip (3 findings) */
+        .finding-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 36px;
+            margin-top: 22px;
+        }
+
+        .finding-item {
+            padding-top: 14px;
+            border-top: 1px solid var(--c-border-light);
+        }
+
+        .finding-item__kicker {
+            font-family: var(--f-mono);
+            font-weight: 300;
+            font-size: 13px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--c-accent);
+            margin-bottom: 6px;
+        }
+
+        .finding-item__val {
+            font-family: var(--f-serif);
+            font-weight: 400;
+            font-size: 32px;
+            color: var(--c-fg-light);
+            margin-bottom: 4px;
+        }
+
+        .finding-item__txt {
+            font-size: 18px;
+            line-height: 1.42;
+            color: var(--c-fg-light-2);
+        }
+
+        /* ===========================================
+           STAGGERED ENTRANCE ANIMATIONS ([data-anim])
+           =========================================== */
+        [data-anim] {
+            opacity: 0;
+            transition: opacity var(--dur-enter) var(--ease-enter),
+                        transform var(--dur-enter) var(--ease-enter),
+                        clip-path var(--dur-enter) var(--ease-enter);
+        }
+
+        [data-anim="fade-up"] { transform: translateY(28px); }
+        [data-anim="fade-in"] { transform: none; }
+        [data-anim="scale-in"] { transform: scale(0.96); }
+        [data-anim="reveal-right"] { clip-path: inset(0 100% 0 0); }
+
+        .slide.visible [data-anim] {
+            opacity: 1;
+            transform: none;
+            clip-path: inset(0 0 0 0);
+        }
+
+        [data-delay="0"] { transition-delay: 0s; }
+        [data-delay="1"] { transition-delay: 0.08s; }
+        [data-delay="2"] { transition-delay: 0.18s; }
+        [data-delay="3"] { transition-delay: 0.30s; }
+        [data-delay="4"] { transition-delay: 0.44s; }
+        [data-delay="5"] { transition-delay: 0.60s; }
+
+        /* ===========================================
+           OUTSIDE-STAGE CHROME: NAV DOTS, EDIT, NOTES
+           =========================================== */
+        .deck-controls {
+            bottom: 14px;
+        }
+
+        .nav-dots {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            background: transparent;
+            border: none;
+        }
+
+        .nav-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(130, 126, 114, 0.42);
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+
+        .nav-dot.is-active {
+            background: var(--c-accent);
+            transform: scale(1.5);
+        }
+
+        /* Inline edit hotzone + toggle (JS hover timeout, never ~ selector) */
+        .edit-hotzone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 84px;
+            height: 84px;
+            z-index: 10000;
+            cursor: pointer;
+        }
+
+        .edit-toggle {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            background: #192b1b;
+            color: #d4cfbf;
+            border: 1px solid rgba(212, 207, 191, 0.3);
+            padding: 8px 14px;
+            font-family: var(--f-mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .edit-toggle.show,
+        .edit-toggle.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .edit-toggle.active {
+            border-color: var(--c-accent);
+            color: #fff;
+            background: var(--c-accent);
+        }
+
+        body.is-editing [data-editable] {
+            outline: 1px dashed rgba(200, 82, 74, 0.75);
+            outline-offset: 4px;
+            cursor: text;
+        }
+
+        /* Presenter speaker notes + 8-minute timer drawer (toggle with N) */
+        .notes-drawer {
+            position: fixed;
+            right: 20px;
+            bottom: 68px;
+            width: 420px;
+            background: rgba(18, 31, 20, 0.94);
+            color: var(--c-fg);
+            border: 1px solid rgba(212, 207, 191, 0.22);
+            padding: 18px 20px;
+            z-index: 10002;
+            font-family: var(--f-sans);
+            display: none;
+        }
+
+        .notes-drawer.is-open {
+            display: block;
+        }
+
+        .notes-drawer__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 207, 191, 0.16);
+            font-family: var(--f-mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .notes-timer {
+            color: var(--c-accent);
+            cursor: pointer;
+        }
+
+        .notes-drawer__body {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--c-fg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Inline Editing Hotzone (top-left corner or press E) -->
+    <div class="edit-hotzone" aria-hidden="true"></div>
+    <button class="edit-toggle" id="editToggle" type="button" title="Modo edición (E) | Guardar HTML (Ctrl+S)">Editar (E)</button>
+
+    <!-- Presenter Notes + 8-Minute Timer Drawer (press N) -->
+    <aside class="notes-drawer" id="notesDrawer" aria-label="Notas del expositor">
+        <div class="notes-drawer__top">
+            <span id="notesMeta">NOTAS · SLIDE 01</span>
+            <span class="notes-timer" id="notesTimer" title="Clic para iniciar/pausar cronómetro 8:00">08:00 · INICIAR</span>
+        </div>
+        <div class="notes-drawer__body" id="notesBody"></div>
+    </aside>
+
+    <!-- Fixed 16:9 Scaled Stage -->
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+
+            <!-- ===================================================
+                 SLIDE 01 — PORTADA (DARK FOREST, CHROMELESS)
+                 =================================================== -->
+            <section class="slide active visible" data-notes="[0:00–0:25 | 25s] Presentar el título, el Grupo N° 2 y el alcance: 13 años de datos SINCA (2013–2026) en cuatro estaciones de la Región de Aysén con enfoque en series de tiempo y arquitectura Python → Power BI.">
+                <div class="grove-num" aria-hidden="true">01</div>
+                <div class="slide-inner">
+                    <div class="slide-chrome" style="border-bottom: none; padding-bottom: 0;">
+                        <span>EIN092B VISUALIZACIÓN · UTFSM</span>
+                        <span>28 DE NOVIEMBRE DE 2026</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: center; gap: 22px;">
+                        <div class="kicker" data-anim="fade-up" data-delay="0">INFORME FINAL · GRUPO N° 2 · REGIÓN DE AYSÉN</div>
+                        <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                        <h1 class="display-title" data-anim="fade-up" data-delay="1" data-editable>
+                            MP2,5 y Clima en la<br>Región de <em>Aysén</em>
+                        </h1>
+                        <p class="lead" style="max-width: 1180px; margin-top: 12px;" data-anim="fade-up" data-delay="2" data-editable>
+                            Caracterización visual, descomposición de series de tiempo y regímenes meteorológicos sobre 13 años de registros horarios oficiales del SINCA (2013–2026).
+                        </p>
+                    </div>
+
+                    <div class="slide-foot" style="padding-top: 22px;" data-anim="fade-in" data-delay="3">
+                        <span>MAXIMILIANO DEL RÍO LINCOÑIR &nbsp;·&nbsp; PATRICIO AYLWIN RETAMAL</span>
+                        <span>PROF. JORGE PORTILLA &nbsp;·&nbsp; GITHUB.COM/MAKSIIDR/AYSEN-MP25-VISUALIZACION</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 02 — CONTEXTO, PREGUNTA Y OBJETIVOS (PARCHMENT)
+                 =================================================== -->
+            <section class="slide slide--light" data-notes="[0:25–1:05 | 40s] Contextualizar la contaminación invernal por leña en Coyhaique (zona saturada DS 15), el volumen de 115.200 filas por variable, la brecha de SINCA y los 3 objetivos específicos.">
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>01 · CONTEXTO Y PROBLEMÁTICA</span>
+                        <span>REGIÓN DE AYSÉN · DS N° 12/2011</span>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="two-col two-col--divided" style="align-items: center;">
+                            <div>
+                                <div class="kicker" data-anim="fade-up" data-delay="0">PROBLEMA DE SALUD PÚBLICA</div>
+                                <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                                <h2 class="h2" style="margin-bottom: 34px;" data-anim="fade-up" data-delay="1" data-editable>
+                                    Una crisis invernal oculta en <em>tablas estáticas</em>
+                                </h2>
+                                <ul class="em-list" data-anim="fade-up" data-delay="2">
+                                    <li><span data-editable><span class="em-lead">Zona saturada por MP2,5:</span> Coyhaique supera reiteradamente la norma diaria de 50 µg/m³ por combustión residencial de leña entre abril y septiembre [1]–[4].</span></li>
+                                    <li><span data-editable><span class="em-lead">Escala multivariada:</span> Más de 115.200 registros horarios por serie en Coyhaique II, imposibles de diagnosticar en planillas planas.</span></li>
+                                    <li><span data-editable><span class="em-lead">Brecha del portal SINCA:</span> Descarga series aisladas sin comparar ciudades, separar tendencia STL ni vincular episodios con la meteorología local.</span></li>
+                                </ul>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 30px;">
+                                <div class="editorial-box" data-anim="fade-up" data-delay="2">
+                                    <div class="quote-mark" aria-hidden="true">“</div>
+                                    <p class="quote-text" data-editable>
+                                        ¿Cómo han evolucionado los episodios de MP2,5 en Aysén entre 2013 y 2026, y qué <em>condiciones climáticas</em> se asocian a ellos?
+                                    </p>
+                                </div>
+
+                                <div data-anim="fade-up" data-delay="3">
+                                    <div class="kicker" style="margin-bottom: 16px;">OBJETIVOS ESPECÍFICOS</div>
+                                    <ul class="em-list">
+                                        <li><span data-editable><span class="em-lead">OE1 · Patrones:</span> Describir ciclos diarios, estacionales y sincronía entre Coyhaique, Puerto Aysén y Cochrane.</span></li>
+                                        <li><span data-editable><span class="em-lead">OE2 · Tendencias:</span> Cuantificar tendencias interanuales controlando vacíos y el año incompleto 2026.</span></li>
+                                        <li><span data-editable><span class="em-lead">OE3 · Regímenes:</span> Asociar episodios con clima mediante CCF, PCA y clustering validado objetivamente.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>MP2,5 Y CLIMA · REGIÓN DE AYSÉN</span>
+                        <span>02 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 03 — RETROALIMENTACIÓN PRESENTACIÓN 1 (DARK)
+                 =================================================== -->
+            <section class="slide" data-notes="[1:05–1:50 | 45s] Mostrar directamente cómo incorporamos cada una de las 3 observaciones escritas en la rúbrica de la Presentación 1: series de tiempo + Power BI, control de 2026 y verificación real de la rosa de vientos.">
+                <div class="grove-num" aria-hidden="true">03</div>
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>02 · RETROALIMENTACIÓN PRESENTACIÓN 1</span>
+                        <span>AJUSTES METODOLÓGICOS VERIFICADOS</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: flex-start; padding-top: 38px;">
+                        <div class="kicker" data-anim="fade-up" data-delay="0">RESPUESTA A LAS OBSERVACIONES</div>
+                        <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                        <h2 class="h2" style="margin-bottom: 42px;" data-anim="fade-up" data-delay="1" data-editable>
+                            Tres correcciones que <em>elevaron el rigor</em> del estudio
+                        </h2>
+
+                        <div class="three-col" data-anim="fade-up" data-delay="2">
+                            <div class="three-col__item">
+                                <div class="kicker">OBSERVACIÓN 01</div>
+                                <h3 class="h3" data-editable>Series de tiempo y <em>Power BI</em></h3>
+                                <div class="obs-quote">“Explorar soluciones basadas en series de tiempo y migrar la implementación visual final a Power BI.”</div>
+                                <ul class="em-list" style="gap: 12px;">
+                                    <li style="font-size: 20px;"><span data-editable>Descomposición STL robusta, Mann–Kendall + Sen, ACF/PACF y CCF.</span></li>
+                                    <li style="font-size: 20px;"><span data-editable>Pruebas y prototipo Dash en Python → esquema estrella (8 tablas) + DAX para Power BI.</span></li>
+                                    <li style="font-size: 20px;"><span data-editable>Clasificación temporal solo como validación explicativa del clima.</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="three-col__item">
+                                <div class="kicker">OBSERVACIÓN 02</div>
+                                <h3 class="h3" data-editable>Faltantes y <em>año 2026</em></h3>
+                                <div class="obs-quote">“Falta manejo en cuanto a datos faltantes o incompletos (año presente).”</div>
+                                <ul class="em-list" style="gap: 12px;">
+                                    <li style="font-size: 20px;"><span data-editable>Auditoría completa de 25 CSV: exclusión de NO, NOx y NO₂ (&gt;70% vacíos).</span></li>
+                                    <li style="font-size: 20px;"><span data-editable>Regla DS 12 estricta (≥18 h válidas); sin imputación de huecos largos.</span></li>
+                                    <li style="font-size: 20px;"><span data-editable>2026 (corte 23 oct) separado en años completos, ventana YTD e invierno (100%).</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="three-col__item">
+                                <div class="kicker">OBSERVACIÓN 03</div>
+                                <h3 class="h3" data-editable>Verificación de <em>viento</em></h3>
+                                <div class="obs-quote">“La rosa de los vientos necesita dirección; asegurarse de que el dataset posea esos datos.”</div>
+                                <ul class="em-list" style="gap: 12px;">
+                                    <li style="font-size: 20px;"><span data-editable>Verificado en los CSV: SINCA no entrega dirección horaria en ninguna estación.</span></li>
+                                    <li style="font-size: 20px;"><span data-editable>Solo existen tablas agregadas de 24 sectores (ausentes en Cochrane).</span></li>
+                                    <li style="font-size: 20px;"><span data-editable>Rosa acotada al régimen histórico; episodios estudiados con velocidad del viento.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>INCORPORACIÓN DE RETROALIMENTACIÓN</span>
+                        <span>03 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 04 — AUDITORÍA DE DATOS SINCA (PARCHMENT)
+                 =================================================== -->
+            <section class="slide slide--light" data-notes="[1:50–2:30 | 40s] Revisar la matriz de completitud anual. Remarcar que 2026 alcanza 100% de cobertura invernal Abr–Sep y que Cochrane 2021–2023 tiene alta fracción no validada, por lo que los años fiables son 2024–2025.">
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>03 · AUDITORÍA DE DATOS SINCA</span>
+                        <span>COBERTURA, COMPLETITUD Y CORTE 2026</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: space-between; padding: 20px 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 56px;">
+                            <div style="flex: 1;">
+                                <div class="kicker" data-anim="fade-up" data-delay="0">CALIDAD Y TRAZABILIDAD</div>
+                                <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                                <h2 class="h2" style="font-size: 46px;" data-anim="fade-up" data-delay="1" data-editable>Cobertura histórica y control del <em>corte 2026</em></h2>
+                            </div>
+                            <div class="stat-grid stat-grid--4" style="width: 780px; flex-shrink: 0; gap: 24px;" data-anim="fade-up" data-delay="2">
+                                <div class="grove-stat" style="padding-bottom: 10px;">
+                                    <div class="grove-stat__val grove-stat__val--sm">25</div>
+                                    <div class="grove-stat__lbl">Archivos CSV</div>
+                                </div>
+                                <div class="grove-stat" style="padding-bottom: 10px;">
+                                    <div class="grove-stat__val grove-stat__val--sm">98,9%</div>
+                                    <div class="grove-stat__lbl">Coyhaique II</div>
+                                </div>
+                                <div class="grove-stat" style="padding-bottom: 10px;">
+                                    <div class="grove-stat__val grove-stat__val--sm">23 oct</div>
+                                    <div class="grove-stat__lbl">Corte 2026*</div>
+                                </div>
+                                <div class="grove-stat" style="padding-bottom: 10px;">
+                                    <div class="grove-stat__val grove-stat__val--sm">78,6%</div>
+                                    <div class="grove-stat__lbl">Cochrane</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1.55fr 1fr; gap: 48px; align-items: center; margin-top: 16px;">
+                            <div class="exhibit-frame" data-anim="scale-in" data-delay="2">
+                                <img src="figures/slide_completeness_audit.png" alt="Matriz de completitud anual de MP2,5 por estación SINCA 2014–2026" class="exhibit-img" style="max-height: 495px;">
+                            </div>
+
+                            <div data-anim="fade-up" data-delay="3">
+                                <div class="kicker" style="margin-bottom: 18px;">REGLAS DE PREPROCESAMIENTO</div>
+                                <ul class="em-list" style="gap: 20px;">
+                                    <li><span data-editable><span class="em-lead">Ventana YTD comparable:</span> Del 1 de enero al 23 de octubre se concentra el 99,7% de los episodios históricos de Coyhaique II, habilitando evaluar 2026 sin sesgo.</span></li>
+                                    <li><span data-editable><span class="em-lead">Depuración de gases:</span> NO (9,2%), NOx (10,0%) y NO₂ (30,0%) se descartaron del análisis multivariado.</span></li>
+                                    <li><span data-editable><span class="em-lead">Trazabilidad SINCA:</span> 16,6% de días 2026 en Coyhaique II y 100% de Cochrane 2021–2023 son preliminares o no validados.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>AUDITORÍA DE CALIDAD · 4 ESTACIONES SINCA</span>
+                        <span>04 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 05 — EVALUACIÓN OBJETIVA DE MÉTODOS (DARK)
+                 =================================================== -->
+            <section class="slide" data-notes="[2:30–3:15 | 45s] Mostrar la matriz cuantitativa que responde a los criterios objetivos: jerarquía perceptual de Cleveland & McGill, tiempos reales medidos sobre 115.200 registros horarios (<0,6 s) y criterios internos/temporales para modelos.">
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>04 · METODOLOGÍA Y SELECCIÓN OBJETIVA</span>
+                        <span>BENCHMARK REAL SOBRE 115.200 REGISTROS HORARIOS</span>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="two-col two-col--divided" style="grid-template-columns: 1.25fr 0.95fr; gap: 58px; align-items: start;">
+                            <div>
+                                <div class="kicker" data-anim="fade-up" data-delay="0">SELECCIÓN DE VISUALIZACIONES</div>
+                                <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                                <h2 class="h2" style="margin-bottom: 28px;" data-anim="fade-up" data-delay="1" data-editable>
+                                    Criterios <em>cuantitativos</em> sobre vistas candidatas
+                                </h2>
+
+                                <table class="grove-table" data-anim="fade-up" data-delay="2">
+                                    <thead>
+                                        <tr>
+                                            <th>Vista candidata</th>
+                                            <th class="num">Perc. [8]</th>
+                                            <th class="num">Clar.</th>
+                                            <th class="num">Esc. (s)</th>
+                                            <th class="num">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Serie mensual + tendencia STL</td>
+                                            <td class="num">3</td>
+                                            <td class="num">3</td>
+                                            <td class="num">0,59 s</td>
+                                            <td class="score-hi">12 / 12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Barras apiladas GEC (DS 12)</td>
+                                            <td class="num">3</td>
+                                            <td class="num">3</td>
+                                            <td class="num">0,09 s</td>
+                                            <td class="score-hi">12 / 12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mapa de calor (hora × mes)</td>
+                                            <td class="num">2</td>
+                                            <td class="num">3</td>
+                                            <td class="num">0,08 s</td>
+                                            <td class="score-hi">11 / 12</td>
+                                        </tr>
+                                        <tr class="is-discarded">
+                                            <td>Calendario diario 13 años (descartado)</td>
+                                            <td class="num">1</td>
+                                            <td class="num">2</td>
+                                            <td class="num">0,04 s</td>
+                                            <td class="num">8 / 12</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p class="body-text muted" style="margin-top: 22px; font-size: 19px;" data-anim="fade-in" data-delay="3">
+                                    Carga completa del esquema estrella Power BI (7 tablas): <span class="accent">0,089 s</span> — 160× más rápido que el umbral propuesto de 15 s.
+                                </p>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 26px;">
+                                <div class="kicker" data-anim="fade-up" data-delay="1">MODELOS Y AJUSTE DE HIPERPARÁMETROS</div>
+                                <h3 class="h3" data-anim="fade-up" data-delay="2" data-editable>Selección objetiva de <em>series y ML</em></h3>
+                                <ul class="em-list" data-anim="fade-up" data-delay="3" style="gap: 20px;">
+                                    <li><span data-editable><span class="em-lead">STL robusto vs. clásico:</span> Elegido por reducir casi a la mitad el residuo MAD en Coyhaique II (2,81 vs. 5,01 µg/m³).</span></li>
+                                    <li><span data-editable><span class="em-lead">Clustering (k = 2..6):</span> K-Means, GMM y Ward contrastados con Silueta, Davies–Bouldin, Calinski–Harabasz y estabilidad temporal (ARI entre mitades 2015–20 y 2021–26).</span></li>
+                                    <li><span data-editable><span class="em-lead">Validación explicativa:</span> GridSearchCV con TimeSeriesSplit (5 particiones, 2015–2023) y prueba estricta fuera de muestra en 2024–2026 (F1, PR-AUC, ROC-AUC).</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>EVALUACIÓN OBJETIVA · VISUALIZACIÓN Y MODELADO</span>
+                        <span>05 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 06 — TESIS CENTRAL DE RESULTADOS (DARK STATEMENT)
+                 =================================================== -->
+            <section class="slide" data-notes="[3:15–3:40 | 25s] Pausa narrativa de alto impacto antes de mostrar las figuras: sintetizar el hallazgo interanual clave en tres cifras concretas.">
+                <div class="grove-num" aria-hidden="true">06</div>
+                <div class="slide-inner">
+                    <div class="slide-chrome" style="border-bottom: none; padding-bottom: 0;">
+                        <span>05 · HALLAZGO CENTRAL</span>
+                        <span>SÍNTESIS REGIONAL 2013–2026</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: center; gap: 48px;">
+                        <div>
+                            <div class="kicker" data-anim="fade-up" data-delay="0">EVOLUCIÓN INTERANUAL</div>
+                            <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                            <h2 class="h1-statement" data-anim="fade-up" data-delay="1" data-editable>
+                                Coyhaique redujo sus episodios durante una década — pero 2026 <em>repuntó</em> y Cochrane ya supera a la capital.
+                            </h2>
+                        </div>
+
+                        <div class="stat-grid stat-grid--3" data-anim="fade-up" data-delay="2">
+                            <div class="grove-stat">
+                                <div class="grove-stat__val">−4,93</div>
+                                <div class="grove-stat__lbl">Días / año · Coyhaique II (2014–2025)</div>
+                                <div class="grove-stat__sub">Tendencia decreciente significativa (Mann–Kendall p = 0,002), bajando de 156 a 75 días en 2021.</div>
+                            </div>
+                            <div class="grove-stat">
+                                <div class="grove-stat__val">99</div>
+                                <div class="grove-stat__lbl">Días &gt; 50 · Coyhaique II (2026 YTD*)</div>
+                                <div class="grove-stat__sub">33 preemergencias y 15 emergencias en el invierno 2026, casi el doble de preemergencias que en 2025.</div>
+                            </div>
+                            <div class="grove-stat">
+                                <div class="grove-stat__val">130</div>
+                                <div class="grove-stat__lbl">Días &gt; 50 · Cochrane (2025)</div>
+                                <div class="grove-stat__sub">110 días en 2024 y 130 en 2025 (35,1% de días válidos), con sincronía regional ρ &gt; 0,82 a 200 km.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot" style="border-top: none; padding-top: 0;">
+                        <span>RESULTADOS · EVOLUCIÓN INTERANUAL</span>
+                        <span>06 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 07 — EXHIBIT 01: STL Y CATEGORÍAS GEC (PARCHMENT)
+                 =================================================== -->
+            <section class="slide slide--light" data-notes="[3:40–4:20 | 40s] Recorrer el panel izquierdo (tendencias STL: caída en Coyhaique II de 58 a 32 µg/m³ y Vialidad de 28 a 18 µg/m³) y el panel derecho (barras GEC y barra achurada 2026* con repunte de preemergencias).">
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>05 · RESULTADOS — SERIES DE TIEMPO</span>
+                        <span>TENDENCIA STL ROBUSTA Y CATEGORÍAS GEC</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: space-between; padding: 18px 0;">
+                        <div>
+                            <div class="kicker" data-anim="fade-up" data-delay="0">DESCOMPOSICIÓN TEMPORAL</div>
+                            <div class="rule-coral" style="margin: 10px 0 12px 0;" data-anim="reveal-right" data-delay="1"></div>
+                            <h2 class="h2" style="font-size: 48px;" data-anim="fade-up" data-delay="1" data-editable>Tendencia STL regional y días sobre <em>norma DS 12</em></h2>
+                        </div>
+
+                        <div class="exhibit-frame" style="padding: 12px 0;" data-anim="scale-in" data-delay="2">
+                            <img src="figures/slide_trends_and_gec.png" alt="Tendencia STL mensual por estación y días sobre norma GEC en Coyhaique II" class="exhibit-img" style="max-height: 510px;">
+                        </div>
+
+                        <div class="finding-strip" data-anim="fade-up" data-delay="3">
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">FUERZA ESTACIONAL STL</div>
+                                <div class="finding-item__val">&gt; 0,80</div>
+                                <div class="finding-item__txt">Domina en las 4 estaciones (0,807 en Coyhaique II; 0,945 en Vialidad y Cochrane).</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">PUERTO AYSÉN (VIALIDAD)</div>
+                                <div class="finding-item__val">−4,38 d/año</div>
+                                <div class="finding-item__txt">Descenso invernal significativo 2018–2026 (p = 0,021), pasando de 61 a 16 días &gt;50.</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">SINCRONÍA REGIONAL</div>
+                                <div class="finding-item__val">ρ &gt; 0,82</div>
+                                <div class="finding-item__txt">Coyhaique II correlaciona con Vialidad (0,829) y Cochrane (0,822; p &lt; 0,001).</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>EXHIBIT 01 · TENDENCIAS Y EPISODIOS CRÍTICOS</span>
+                        <span>07 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 08 — EXHIBIT 02: CICLO DIARIO Y ESTACIONAL (PARCHMENT)
+                 =================================================== -->
+            <section class="slide slide--light" data-notes="[4:20–4:55 | 35s] Explicar el mapa de calor hora × mes y la curva invernal vs verano: razón 5,1×, repunte matutino 08:00 h, ventilación mínima a las 14:00 h y pico nocturno sostenido hasta 191,8 µg/m³ en junio a las 21:00 h.">
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>06 · RESULTADOS — CICLO HORARIO Y ESTACIONAL</span>
+                        <span>COYHAIQUE II · 115.200 REGISTROS HORARIOS</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: space-between; padding: 18px 0;">
+                        <div>
+                            <div class="kicker" data-anim="fade-up" data-delay="0">PATRÓN INTRADIARIO</div>
+                            <div class="rule-coral" style="margin: 10px 0 12px 0;" data-anim="reveal-right" data-delay="1"></div>
+                            <h2 class="h2" style="font-size: 48px;" data-anim="fade-up" data-delay="1" data-editable>Estacionalidad <em>5,1×</em> y pulso nocturno de la leña</h2>
+                        </div>
+
+                        <div class="exhibit-frame" style="padding: 12px 0;" data-anim="scale-in" data-delay="2">
+                            <img src="figures/slide_diurnal_heatmap.png" alt="Mapa de calor hora por mes y perfil diario invierno versus resto del año en Coyhaique II" class="exhibit-img" style="max-height: 515px;">
+                        </div>
+
+                        <div class="finding-strip" data-anim="fade-up" data-delay="3">
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">BRECHA ESTACIONAL</div>
+                                <div class="finding-item__val">77,7 vs. 15,1</div>
+                                <div class="finding-item__txt">µg/m³ promedio horario en invierno (Abr–Sep) frente al resto del año (Oct–Mar).</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">MÁXIMO NOCTURNO</div>
+                                <div class="finding-item__val">191,8 µg/m³</div>
+                                <div class="finding-item__txt">Pico promedio en junio a las 21:00 h (media invernal 141,1 µg/m³ a las 20:00 h).</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">VENTANA DE VENTILACIÓN</div>
+                                <div class="finding-item__val">14:00 h · 40,0</div>
+                                <div class="finding-item__txt">Mínimo vespertino invernal por mezcla convectiva diurna (oscilación 3,5× en el día).</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>EXHIBIT 02 · MAPA DE CALOR Y PERFIL DIARIO</span>
+                        <span>08 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 09 — EXHIBIT 03: METEOROLOGÍA Y VIENTO (PARCHMENT)
+                 =================================================== -->
+            <section class="slide slide--light" data-notes="[4:55–5:40 | 45s] Subrayar el hallazgo clave de CCF: en el año completo lidera temperatura (-0,78), pero dentro del invierno lidera la velocidad del viento (-0,686) porque siempre hace frío y la calma define si se acumula humo. Comentar la rosa climatológica (41,2% O–ONO).">
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>07 · RESULTADOS — METEOROLOGÍA Y VIENTO</span>
+                        <span>CORRELACIÓN CRUZADA (CCF) Y ROSA CLIMATOLÓGICA</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: space-between; padding: 18px 0;">
+                        <div>
+                            <div class="kicker" data-anim="fade-up" data-delay="0">ASOCIACIÓN CLIMÁTICA</div>
+                            <div class="rule-coral" style="margin: 10px 0 12px 0;" data-anim="reveal-right" data-delay="1"></div>
+                            <h2 class="h2" style="font-size: 48px;" data-anim="fade-up" data-delay="1" data-editable>En invierno, la <em>calma eólica</em> manda sobre el frío</h2>
+                        </div>
+
+                        <div class="exhibit-frame" style="padding: 12px 0;" data-anim="scale-in" data-delay="2">
+                            <img src="figures/slide_met_ccf_wind.png" alt="Correlación cruzada Spearman entre meteorología y MP2,5 y rosa de vientos climatológica" class="exhibit-img" style="max-height: 495px;">
+                        </div>
+
+                        <div class="finding-strip" data-anim="fade-up" data-delay="3">
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">MODULADOR INVERNAL</div>
+                                <div class="finding-item__val">ρ = −0,686</div>
+                                <div class="finding-item__txt">En Abr–Sep la velocidad del viento supera a la temperatura (−0,512) y humedad (+0,443).</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">DÍAS &gt;50 VS. NORMALES</div>
+                                <div class="finding-item__val">−63% viento</div>
+                                <div class="finding-item__txt">Mediana cae de 3,04 a 1,13 m/s; T baja a 3,7 °C y CO casi se cuadruplica (p &lt; 10⁻¹²).</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">PERSISTENCIA Y DIRECCIÓN</div>
+                                <div class="finding-item__val">ACF(1) = 0,77</div>
+                                <div class="finding-item__txt">Estructura AR(1) clara; viento climatológico O–ONO domina el 41,2% en Coyhaique II.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>EXHIBIT 03 · RELACIÓN METEOROLÓGICA Y ROSA DE VIENTOS</span>
+                        <span>09 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 10 — EXHIBIT 04: PCA, CLUSTERS Y VALIDACIÓN (PARCHMENT)
+                 =================================================== -->
+            <section class="slide slide--light" data-notes="[5:40–6:30 | 50s] Explicar la física del hallazgo multivariado: PC1+PC2 retienen 78,2%; K-Means k=3 gana en todas las métricas (ARI=0,974) y separa C1 frontal ventilado (967,7 hPa) de C2 anticiclónico estancado (975,3 hPa, 93,4% episodios). Confirmar con Gradient Boosting (PR-AUC 0,948).">
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>08 · RESULTADOS — PCA, CLUSTERING Y VALIDACIÓN</span>
+                        <span>COYHAIQUE II · 3.949 DÍAS COMPLETOS (2015–2026)</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: space-between; padding: 18px 0;">
+                        <div>
+                            <div class="kicker" data-anim="fade-up" data-delay="0">REGÍMENES SINÓPTICOS</div>
+                            <div class="rule-coral" style="margin: 10px 0 12px 0;" data-anim="reveal-right" data-delay="1"></div>
+                            <h2 class="h2" style="font-size: 48px;" data-anim="fade-up" data-delay="1" data-editable>K-Means (<em>k = 3</em>) aísla el régimen anticiclónico crítico</h2>
+                        </div>
+
+                        <div class="exhibit-frame" style="padding: 12px 0;" data-anim="scale-in" data-delay="2">
+                            <img src="figures/slide_pca_and_models.png" alt="Proyección PCA con clusters K-Means y comparación de F1 y PR-AUC en test 2024–2026" class="exhibit-img" style="max-height: 505px;">
+                        </div>
+
+                        <div class="finding-strip" data-anim="fade-up" data-delay="3">
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">K-MEANS (K=3) · GANADOR</div>
+                                <div class="finding-item__val">ARI = 0,974</div>
+                                <div class="finding-item__txt">Supera a Ward y GMM (Silueta 0,246; DB 1,363; CH 2068,8); PC1+PC2 = 78,2% varianza.</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">C2 FRÍO-ESTANCADO VS. C1</div>
+                                <div class="finding-item__val">76,5% episodios</div>
+                                <div class="finding-item__txt">C2 (975,3 hPa; 1,05 m/s; 93,4% &gt;50) vs. C1 frontal ventilado (967,7 hPa; 2,31 m/s).</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">VALIDACIÓN TEST 2024–26</div>
+                                <div class="finding-item__val">PR-AUC 0,948</div>
+                                <div class="finding-item__txt">Gradient Boosting solo clima logra F1 = 0,833 (y 0,857 con lag-1) vs. 0,739 persistencia.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>EXHIBIT 04 · AGRUPAMIENTO Y VALIDACIÓN EXPLICATIVA</span>
+                        <span>10 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 11 — ARQUITECTURA PYTHON -> POWER BI (DARK)
+                 =================================================== -->
+            <section class="slide" data-notes="[6:30–7:10 | 40s] Mostrar el puente entre las pruebas preliminares en Python (prototipo Dash validado) y el esquema estrella normalizado + medidas DAX listo para Power BI Desktop, todo en el repositorio GitHub.">
+                <div class="grove-num" aria-hidden="true">11</div>
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>09 · ARQUITECTURA INTERACTIVA</span>
+                        <span>DE PYTHON A POWER BI DESKTOP</span>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="kicker" data-anim="fade-up" data-delay="0">TRANSFERENCIA VISUAL</div>
+                        <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                        <h2 class="h2" style="margin-bottom: 38px;" data-anim="fade-up" data-delay="1" data-editable>
+                            Prototipo <em>Plotly Dash</em> y modelo estrella para Power BI
+                        </h2>
+
+                        <div class="two-col two-col--divided" data-anim="fade-up" data-delay="2">
+                            <div>
+                                <div class="kicker" style="margin-bottom: 16px;">CAPA 1 · PROTOTIPO INTERACTIVO (PYTHON)</div>
+                                <ul class="em-list" style="gap: 18px;">
+                                    <li><span data-editable><span class="em-lead">Filtros sincronizados:</span> Selección de 4 estaciones, rango 2014–2026 y conmutador YTD / Invierno / Años completos.</span></li>
+                                    <li><span data-editable><span class="em-lead">5 vistas validadas:</span> STL y GEC, Heatmap horario, Mapa regional SINCA, CCF + Rosa climatológica y Biplot PCA/Clusters.</span></li>
+                                    <li><span data-editable><span class="em-lead">Transparencia en vivo:</span> Tarjetas KPI muestran completitud (%) y fracción de datos preliminares en cada consulta.</span></li>
+                                </ul>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 24px;">
+                                <div class="kicker">CAPA 2 · PAQUETE POWER BI (ESQUEMA ESTRELLA)</div>
+                                <ul class="em-list" style="gap: 18px;">
+                                    <li><span data-editable><span class="em-lead">2 dimensiones:</span> dim_estacion (coordenadas) y dim_fecha con banderas is_ytd_comparable e is_winter_season.</span></li>
+                                    <li><span data-editable><span class="em-lead">6 tablas de hechos:</span> Diaria DS 12, matriz 12×24, completitud anual, STL, PCA/clusters y rosa de vientos (carga total 0,089 s).</span></li>
+                                    <li><span data-editable><span class="em-lead">Medidas DAX:</span> Cumplimiento DS 12, categorías GEC, tasa YTD y clima en episodios listas en medidas.dax.</span></li>
+                                </ul>
+
+                                <div class="editorial-box--dark" style="margin-top: 6px;">
+                                    <div class="kicker" style="margin-bottom: 8px;">REPOSITORIO REPRODUCIBLE</div>
+                                    <div style="font-family: var(--f-mono); font-size: 20px; color: var(--c-fg); letter-spacing: 0.03em;">
+                                        https://github.com/MaksiiDR/aysen-mp25-visualizacion
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>IMPLEMENTACIÓN INTERACTIVA Y REPOSITORIO</span>
+                        <span>11 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 12 — FORTALEZAS Y LIMITACIONES (PARCHMENT)
+                 =================================================== -->
+            <section class="slide slide--light" data-notes="[7:10–7:38 | 28s] Balance crítico transparente: fortalezas metodológicas vs. limitaciones reales de los datos SINCA (sin dirección horaria, sin precipitación, cobertura de Cochrane/Vialidad y carácter observacional).">
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>10 · EVALUACIÓN CRÍTICA</span>
+                        <span>FORTALEZAS Y LIMITACIONES DEL ESTUDIO</span>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="kicker" data-anim="fade-up" data-delay="0">BALANCE METODOLÓGICO</div>
+                        <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                        <h2 class="h2" style="margin-bottom: 42px;" data-anim="fade-up" data-delay="1" data-editable>
+                            Lo que el análisis demuestra y sus <em>fronteras</em>
+                        </h2>
+
+                        <div class="two-col two-col--divided" data-anim="fade-up" data-delay="2">
+                            <div>
+                                <div class="kicker" style="margin-bottom: 20px;">FORTALEZAS</div>
+                                <ul class="em-list" style="gap: 22px;">
+                                    <li><span data-editable><span class="em-lead">13 años oficiales:</span> Más de 98% de completitud de MP2,5 en Coyhaique II y auditoría de 25 series SINCA.</span></li>
+                                    <li><span data-editable><span class="em-lead">Control del año 2026:</span> Tratamiento auditable de vacíos, regla DS 12 y ventana YTD comparable sin sesgos.</span></li>
+                                    <li><span data-editable><span class="em-lead">Rigor cuantitativo:</span> STL robusto, K-Means estable (ARI 0,974), validación temporal y selección visual objetiva.</span></li>
+                                    <li><span data-editable><span class="em-lead">Transferencia lista:</span> Esquema estrella y DAX preparados para despliegue directo en Power BI.</span></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <div class="kicker" style="margin-bottom: 20px;">LIMITACIONES</div>
+                                <ul class="em-list" style="gap: 22px;">
+                                    <li><span data-editable><span class="em-lead">Sin dirección horaria:</span> SINCA solo entrega rosa agregada histórica; impide filtrar direcciones por episodio.</span></li>
+                                    <li><span data-editable><span class="em-lead">Variables ausentes:</span> No se cuenta con precipitación horaria ni altura de capa límite atmosférica.</span></li>
+                                    <li><span data-editable><span class="em-lead">Brecha territorial:</span> Solo 4 estaciones; meteorología incompleta en Vialidad (60,6%) e inexistente en Cochrane.</span></li>
+                                    <li><span data-editable><span class="em-lead">Asociación, no causalidad:</span> Diseño observacional con datos preliminares en 2026 (16,6%–31,9%).</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>FORTALEZAS Y LIMITACIONES</span>
+                        <span>12 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 13 — CONCLUSIONES Y CIERRE (DARK, CHROMELESS)
+                 =================================================== -->
+            <section class="slide" data-notes="[7:38–8:00 | 22s] Cerrar con la síntesis respaldada por literatura [1], [2], [6], las tres líneas concretas de trabajo futuro y agradecer al profesor y curso.">
+                <div class="grove-num" aria-hidden="true">13</div>
+                <div class="slide-inner">
+                    <div class="slide-chrome" style="border-bottom: none; padding-bottom: 0;">
+                        <span>11 · CONCLUSIONES Y TRABAJO FUTURO</span>
+                        <span>FIN DE LA PRESENTACIÓN</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: center; gap: 40px;">
+                        <div>
+                            <div class="kicker" data-anim="fade-up" data-delay="0">SÍNTESIS FINAL</div>
+                            <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                            <h2 class="h1-statement" style="font-size: 62px;" data-anim="fade-up" data-delay="1" data-editable>
+                                La contaminación disminuyó en una década, pero el <em>estancamiento anticiclónico</em> invernal mantiene en riesgo a Coyhaique y Cochrane.
+                            </h2>
+                        </div>
+
+                        <div class="rule-full" data-anim="reveal-right" data-delay="2"></div>
+
+                        <div class="three-col" data-anim="fade-up" data-delay="3">
+                            <div class="three-col__item" style="gap: 10px;">
+                                <div class="kicker">RECOMENDACIÓN 01</div>
+                                <p class="body-text" data-editable>Ampliar instrumentación meteorológica completa a Cochrane y publicar dirección horaria de viento en SINCA.</p>
+                            </div>
+                            <div class="three-col__item" style="gap: 10px;">
+                                <div class="kicker">TRABAJO FUTURO 02</div>
+                                <p class="body-text" data-editable>Integrar series de precipitación de la DMC y desplegar el panel en Power BI Service con actualización periódica.</p>
+                            </div>
+                            <div class="three-col__item" style="gap: 10px;">
+                                <div class="kicker">TRABAJO FUTURO 03</div>
+                                <p class="body-text" data-editable>Evaluar modelos dinámicos SARIMAX de 24–48 horas apoyados en la persistencia AR(1) y el régimen sinóptico.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot" style="padding-top: 22px;" data-anim="fade-in" data-delay="4">
+                        <span>MUCHAS GRACIAS &nbsp;·&nbsp; MAXIMILIANO DEL RÍO LINCOÑIR &amp; PATRICIO AYLWIN RETAMAL</span>
+                        <span>EIN092B VISUALIZACIÓN &nbsp;·&nbsp; 13 / 13</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Outside-Stage Navigation Chrome -->
+    <nav class="deck-controls" aria-label="Navegación de diapositivas">
+        <div class="nav-dots" id="navDots" title="Flechas ← → | N: notas y cronómetro | E: editar | F: pantalla completa"></div>
+    </nav>
+
+    <script>
+        /* ===========================================
+           SLIDE PRESENTATION CONTROLLER (FIXED 16:9)
+           =========================================== */
+        class SlidePresentation {
+            constructor() {
+                this.slides = Array.from(document.querySelectorAll('.slide'));
+                this.stage = document.getElementById('deckStage');
+                this.navDots = document.getElementById('navDots');
+                this.notesDrawer = document.getElementById('notesDrawer');
+                this.notesMeta = document.getElementById('notesMeta');
+                this.notesBody = document.getElementById('notesBody');
+                this.currentSlide = 0;
+                this.wheelLocked = false;
+                this.touchStartX = 0;
+                this.touchStartY = 0;
+
+                this.setupStageScale();
+                this.buildDots();
+                this.setupKeyboardNav();
+                this.setupWheelNav();
+                this.setupTouchNav();
+                this.showSlide(0);
+            }
+
+            setupStageScale() {
+                const applyScale = () => {
+                    const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                    const x = (window.innerWidth - 1920 * factor) / 2;
+                    const y = (window.innerHeight - 1080 * factor) / 2;
+                    this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+                };
+                applyScale();
+                window.addEventListener('resize', applyScale);
+            }
+
+            buildDots() {
+                this.dotButtons = this.slides.map((_, i) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'nav-dot';
+                    btn.setAttribute('aria-label', `Ir a diapositiva ${i + 1}`);
+                    btn.addEventListener('click', () => this.showSlide(i));
+                    this.navDots.appendChild(btn);
+                    return btn;
+                });
+            }
+
+            showSlide(index) {
+                this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+                this.slides.forEach((slide, i) => {
+                    const isCurrent = i === this.currentSlide;
+                    slide.classList.toggle('active', isCurrent);
+                    slide.classList.toggle('visible', isCurrent);
+                });
+                this.dotButtons.forEach((btn, i) => {
+                    btn.classList.toggle('is-active', i === this.currentSlide);
+                });
+                const currentEl = this.slides[this.currentSlide];
+                this.notesMeta.textContent = `NOTAS · SLIDE ${String(this.currentSlide + 1).padStart(2, '0')} / ${this.slides.length}`;
+                this.notesBody.textContent = currentEl.getAttribute('data-notes') || 'Sin notas para esta diapositiva.';
+            }
+
+            next() { this.showSlide(this.currentSlide + 1); }
+            prev() { this.showSlide(this.currentSlide - 1); }
+
+            setupKeyboardNav() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.target && e.target.getAttribute && e.target.getAttribute('contenteditable') === 'true') {
+                        return;
+                    }
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+                        e.preventDefault();
+                        this.next();
+                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
+                        e.preventDefault();
+                        this.prev();
+                    } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        this.showSlide(0);
+                    } else if (e.key === 'End') {
+                        e.preventDefault();
+                        this.showSlide(this.slides.length - 1);
+                    } else if (e.key === 'n' || e.key === 'N') {
+                        this.notesDrawer.classList.toggle('is-open');
+                    } else if (e.key === 'f' || e.key === 'F') {
+                        if (!document.fullscreenElement) {
+                            document.documentElement.requestFullscreen?.().catch(() => {});
+                        } else {
+                            document.exitFullscreen?.().catch(() => {});
+                        }
+                    }
+                });
+            }
+
+            setupWheelNav() {
+                window.addEventListener('wheel', (e) => {
+                    if (this.wheelLocked || Math.abs(e.deltaY) < 25) return;
+                    this.wheelLocked = true;
+                    if (e.deltaY > 0) this.next();
+                    else this.prev();
+                    setTimeout(() => { this.wheelLocked = false; }, 450);
+                }, { passive: true });
+            }
+
+            setupTouchNav() {
+                window.addEventListener('touchstart', (e) => {
+                    this.touchStartX = e.changedTouches[0].screenX;
+                    this.touchStartY = e.changedTouches[0].screenY;
+                }, { passive: true });
+
+                window.addEventListener('touchend', (e) => {
+                    const dx = e.changedTouches[0].screenX - this.touchStartX;
+                    const dy = e.changedTouches[0].screenY - this.touchStartY;
+                    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+                        if (dx < 0) this.next();
+                        else this.prev();
+                    }
+                }, { passive: true });
+            }
+        }
+
+        /* ===========================================
+           INLINE EDITOR (E KEY / TOP-LEFT HOTZONE)
+           =========================================== */
+        class InlineEditor {
+            constructor() {
+                this.isActive = false;
+                this.storageKey = 'aysen_mp25_slides_v1';
+                this.toggleBtn = document.getElementById('editToggle');
+                this.hotzone = document.querySelector('.edit-hotzone');
+                this.editables = Array.from(document.querySelectorAll('[data-editable]'));
+                this.hideTimeout = null;
+
+                this.restoreEdits();
+                this.bindEvents();
+            }
+
+            restoreEdits() {
+                try {
+                    const saved = JSON.parse(localStorage.getItem(this.storageKey) || 'null');
+                    if (Array.isArray(saved) && saved.length === this.editables.length) {
+                        this.editables.forEach((el, i) => { el.innerHTML = saved[i]; });
+                    }
+                } catch (_) {}
+            }
+
+            saveToStorage() {
+                try {
+                    localStorage.setItem(this.storageKey, JSON.stringify(this.editables.map(el => el.innerHTML)));
+                } catch (_) {}
+            }
+
+            toggleEditMode() {
+                this.isActive = !this.isActive;
+                document.body.classList.toggle('is-editing', this.isActive);
+                this.toggleBtn.classList.toggle('active', this.isActive);
+                this.toggleBtn.classList.toggle('show', this.isActive);
+                this.toggleBtn.textContent = this.isActive ? 'Editando (Ctrl+S)' : 'Editar (E)';
+                this.editables.forEach((el) => {
+                    el.setAttribute('contenteditable', this.isActive ? 'true' : 'false');
+                });
+                if (!this.isActive) this.saveToStorage();
+            }
+
+            exportHtmlFile() {
+                this.saveToStorage();
+                const wasActive = this.isActive;
+                if (wasActive) this.toggleEditMode();
+                const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+                const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'presentacion_aysen_mp25.html';
+                a.click();
+                URL.revokeObjectURL(a.href);
+            }
+
+            bindEvents() {
+                this.toggleBtn.addEventListener('click', () => this.toggleEditMode());
+                this.hotzone.addEventListener('click', () => this.toggleEditMode());
+
+                const showBtn = () => {
+                    clearTimeout(this.hideTimeout);
+                    this.toggleBtn.classList.add('show');
+                };
+                const hideBtn = () => {
+                    this.hideTimeout = setTimeout(() => {
+                        if (!this.isActive) this.toggleBtn.classList.remove('show');
+                    }, 400);
+                };
+
+                this.hotzone.addEventListener('mouseenter', showBtn);
+                this.hotzone.addEventListener('mouseleave', hideBtn);
+                this.toggleBtn.addEventListener('mouseenter', showBtn);
+                this.toggleBtn.addEventListener('mouseleave', hideBtn);
+
+                this.editables.forEach((el) => {
+                    el.addEventListener('input', () => this.saveToStorage());
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    const inEdit = e.target && e.target.getAttribute && e.target.getAttribute('contenteditable') === 'true';
+                    if ((e.key === 'e' || e.key === 'E') && !inEdit) {
+                        e.preventDefault();
+                        this.toggleEditMode();
+                    }
+                    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+                        if (this.isActive) {
+                            e.preventDefault();
+                            this.exportHtmlFile();
+                        }
+                    }
+                });
+            }
+        }
+
+        /* ===========================================
+           8-MINUTE PRESENTER TIMER (INSIDE NOTES)
+           =========================================== */
+        (() => {
+            const el = document.getElementById('notesTimer');
+            let remaining = 480;
+            let timerId = null;
+
+            const fmt = (s) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+            const render = (running) => {
+                el.textContent = `${fmt(remaining)} · ${running ? 'PAUSA' : 'INICIAR'}`;
+            };
+
+            el.addEventListener('click', () => {
+                if (timerId) {
+                    clearInterval(timerId);
+                    timerId = null;
+                    render(false);
+                } else {
+                    if (remaining <= 0) remaining = 480;
+                    render(true);
+                    timerId = setInterval(() => {
+                        remaining = Math.max(0, remaining - 1);
+                        render(remaining > 0);
+                        if (remaining === 0) {
+                            clearInterval(timerId);
+                            timerId = null;
+                        }
+                    }, 1000);
+                }
+            });
+        })();
+
+        const presentation = new SlidePresentation();
+        const editor = new InlineEditor();
+    </script>
+</body>
+</html>
