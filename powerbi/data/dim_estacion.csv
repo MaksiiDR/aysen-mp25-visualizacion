@@ -1,0 +1,5 @@
+station_id,station_name,city,lat,lon,has_wind_rose,has_met_hourly,role
+CoyhaiqueII,Coyhaique II,Coyhaique,-45.5796,-72.0611,True,True,Estacion principal (contaminantes + meteorologia completa)
+Coyhaique,Coyhaique,Coyhaique,-45.5712,-72.0685,True,True,"Estacion historica urbana (MP2,5, MP10 y meteorologia)"
+Vialidad,Vialidad,Puerto Aysen,-45.4054,-72.6977,True,True,"Estacion costera-valle (MP2,5 y meteorologia parcial)"
+Cochrane,Cochrane,Cochrane,-47.2539,-72.5731,False,False,"Estacion austral (solo MP2,5)"

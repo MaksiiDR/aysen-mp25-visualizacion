@@ -1,0 +1,102 @@
+-- ============================================================================
+-- Medidas DAX para el Modelo Estrella en Power BI
+-- Proyecto: Visualizacion de episodios de MP2,5 y clima - Region de Aysen
+-- Norma de referencia: DS N° 12/2011 (50 ug/m3 promedio 24h con >= 18h validas)
+-- ============================================================================
+
+-- 1. Indicadores principales de MP2,5 y cumplimiento normativo
+MP25 Promedio 24h =
+AVERAGE(fact_calidad_aire_diaria[mp25_24h])
+
+MP25 Mediana 24h =
+MEDIAN(fact_calidad_aire_diaria[mp25_24h])
+
+MP25 Percentil 90 =
+PERCENTILEX.INC(
+    FILTER(fact_calidad_aire_diaria, NOT(ISBLANK(fact_calidad_aire_diaria[mp25_24h]))),
+    fact_calidad_aire_diaria[mp25_24h],
+    0.90
+)
+
+Dias Validos (>=18h) =
+CALCULATE(
+    COUNTROWS(fact_calidad_aire_diaria),
+    fact_calidad_aire_diaria[mp25_valid_day] = TRUE()
+)
+
+Dias Sobre Norma (>50 ug/m3) =
+CALCULATE(
+    COUNTROWS(fact_calidad_aire_diaria),
+    fact_calidad_aire_diaria[over_norm_50] = 1
+)
+
+Tasa Episodios (%) =
+DIVIDE([Dias Sobre Norma (>50 ug/m3)], [Dias Validos (>=18h)], 0)
+
+-- 2. Manejo explicito del ano incompleto 2026 (ventana comparable ene-23 oct)
+Dias Sobre Norma YTD Comparable =
+CALCULATE(
+    [Dias Sobre Norma (>50 ug/m3)],
+    dim_fecha[is_ytd_comparable] = TRUE()
+)
+
+MP25 Promedio Invierno (Abr-Sep) =
+CALCULATE(
+    [MP25 Promedio 24h],
+    dim_fecha[is_winter_season] = TRUE()
+)
+
+-- 3. Categorias oficiales GEC (DS 12)
+Dias Alerta (80-109) =
+CALCULATE(
+    COUNTROWS(fact_calidad_aire_diaria),
+    fact_calidad_aire_diaria[gec_category] = "Alerta (80-109)"
+)
+
+Dias Preemergencia (110-169) =
+CALCULATE(
+    COUNTROWS(fact_calidad_aire_diaria),
+    fact_calidad_aire_diaria[gec_category] = "Preemergencia (110-169)"
+)
+
+Dias Emergencia (>=170) =
+CALCULATE(
+    COUNTROWS(fact_calidad_aire_diaria),
+    fact_calidad_aire_diaria[gec_category] = "Emergencia (>=170)"
+)
+
+-- 4. Auditoria de calidad y completitud
+Completitud MP25 (%) =
+DIVIDE([Dias Validos (>=18h)], COUNTROWS(fact_calidad_aire_diaria), 0)
+
+Porcentaje Datos Preliminares o No Validados =
+VAR DiasNoVal =
+    CALCULATE(
+        COUNTROWS(fact_calidad_aire_diaria),
+        fact_calidad_aire_diaria[mp25_valid_day] = TRUE(),
+        fact_calidad_aire_diaria[mp25_day_quality] <> "validado"
+    )
+RETURN
+DIVIDE(DiasNoVal, [Dias Validos (>=18h)], 0)
+
+-- 5. Variables meteorologicas asociadas a episodios
+Temperatura Media (C) =
+AVERAGE(fact_calidad_aire_diaria[temp])
+
+Velocidad Viento Media (m/s) =
+AVERAGE(fact_calidad_aire_diaria[velviento])
+
+Humedad Relativa Media (%) =
+AVERAGE(fact_calidad_aire_diaria[humedad])
+
+Temperatura en Episodios (>50) =
+CALCULATE(
+    AVERAGE(fact_calidad_aire_diaria[temp]),
+    fact_calidad_aire_diaria[over_norm_50] = 1
+)
+
+Viento en Episodios (>50) =
+CALCULATE(
+    AVERAGE(fact_calidad_aire_diaria[velviento]),
+    fact_calidad_aire_diaria[over_norm_50] = 1
+)

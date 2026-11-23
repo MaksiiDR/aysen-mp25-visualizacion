@@ -1,0 +1,14 @@
+{
+  "total_csv_files": 25,
+  "hourly_files": 22,
+  "wind_rose_files": 3,
+  "ytd_cutoff": "2026-10-23",
+  "total_hourly_rows": 415584,
+  "total_daily_rows": 17320,
+  "stations": [
+    "CoyhaiqueII",
+    "Coyhaique",
+    "Vialidad",
+    "Cochrane"
+  ]
+}

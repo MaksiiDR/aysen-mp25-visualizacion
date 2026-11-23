@@ -1,0 +1,8 @@
+feature_set,model,best_params,cv_f1,test_f1,test_precision,test_recall,test_pr_auc,test_roc_auc
+Solo lag-1 (Persistencia),Persistencia (t-1),umbral=50 ug/m3,,0.7387,0.7387,0.7387,0.8245,0.9293
+Solo Meteorologia,Regresion Logistica,{'clf__C': 5.0},0.8147,0.7873,0.6522,0.993,0.9361,0.9729
+Solo Meteorologia,Random Forest,"{'max_depth': 12, 'min_samples_leaf': 5, 'n_estimators': 150}",0.8313,0.8023,0.6779,0.9826,0.9434,0.9761
+Solo Meteorologia,Gradient Boosting,"{'learning_rate': 0.08, 'max_depth': 3, 'n_estimators': 100}",0.845,0.8331,0.7432,0.9477,0.9477,0.9785
+Meteorologia + Lag-1,Regresion Logistica,{'clf__C': 5.0},0.8322,0.8203,0.7022,0.9861,0.9355,0.9754
+Meteorologia + Lag-1,Random Forest,"{'max_depth': 12, 'min_samples_leaf': 5, 'n_estimators': 300}",0.8465,0.8187,0.7227,0.9443,0.9397,0.9742
+Meteorologia + Lag-1,Gradient Boosting,"{'learning_rate': 0.03, 'max_depth': 2, 'n_estimators': 200}",0.8562,0.8567,0.7964,0.9268,0.945,0.9772

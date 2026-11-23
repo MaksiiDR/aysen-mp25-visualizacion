@@ -1,0 +1,580 @@
+{
+  "stl": {
+    "Cochrane": {
+      "n_months": 66,
+      "start": "2021-04",
+      "end": "2026-09",
+      "n_missing_interpolated_for_stl": 17,
+      "trend_strength": 0.364,
+      "seasonal_strength": 0.945,
+      "trend_start_ugm3": 41.98,
+      "trend_end_ugm3": 26.39,
+      "resid_mad_robust": 4.73,
+      "resid_mad_nonrobust": 4.71
+    },
+    "Coyhaique": {
+      "n_months": 163,
+      "start": "2013-03",
+      "end": "2026-09",
+      "n_missing_interpolated_for_stl": 0,
+      "trend_strength": 0.165,
+      "seasonal_strength": 0.803,
+      "trend_start_ugm3": 40.34,
+      "trend_end_ugm3": 36.84,
+      "resid_mad_robust": 2.22,
+      "resid_mad_nonrobust": 4.87
+    },
+    "CoyhaiqueII": {
+      "n_months": 157,
+      "start": "2013-09",
+      "end": "2026-09",
+      "n_missing_interpolated_for_stl": 1,
+      "trend_strength": 0.156,
+      "seasonal_strength": 0.807,
+      "trend_start_ugm3": 57.95,
+      "trend_end_ugm3": 31.82,
+      "resid_mad_robust": 2.81,
+      "resid_mad_nonrobust": 5.01
+    },
+    "Vialidad": {
+      "n_months": 107,
+      "start": "2017-11",
+      "end": "2026-09",
+      "n_missing_interpolated_for_stl": 4,
+      "trend_strength": 0.469,
+      "seasonal_strength": 0.945,
+      "trend_start_ugm3": 27.69,
+      "trend_end_ugm3": 17.82,
+      "resid_mad_robust": 1.37,
+      "resid_mad_nonrobust": 1.55
+    }
+  },
+  "mann_kendall_trends": {
+    "Cochrane": {
+      "winter_incl_2026": {
+        "years": [
+          2023,
+          2026
+        ],
+        "n_years": 4,
+        "mp25_mean_trend": "no trend",
+        "mp25_mean_p": 0.7341,
+        "mp25_mean_sen_slope": -4.477,
+        "days_over_50_trend": "no trend",
+        "days_over_50_p": 1.0,
+        "days_over_50_sen_slope": 6.167
+      },
+      "ytd_incl_2026": {
+        "years": [
+          2023,
+          2026
+        ],
+        "n_years": 4,
+        "mp25_mean_trend": "no trend",
+        "mp25_mean_p": 0.3082,
+        "mp25_mean_sen_slope": -3.692,
+        "days_over_50_trend": "no trend",
+        "days_over_50_p": 1.0,
+        "days_over_50_sen_slope": 6.167
+      }
+    },
+    "Coyhaique": {
+      "complete_years": {
+        "years": [
+          2013,
+          2025
+        ],
+        "n_years": 13,
+        "mp25_mean_trend": "decreasing",
+        "mp25_mean_p": 0.006,
+        "mp25_mean_sen_slope": -2.278,
+        "days_over_50_trend": "decreasing",
+        "days_over_50_p": 0.0145,
+        "days_over_50_sen_slope": -4.414
+      },
+      "winter_incl_2026": {
+        "years": [
+          2013,
+          2026
+        ],
+        "n_years": 14,
+        "mp25_mean_trend": "decreasing",
+        "mp25_mean_p": 0.0375,
+        "mp25_mean_sen_slope": -2.521,
+        "days_over_50_trend": "no trend",
+        "days_over_50_p": 0.0627,
+        "days_over_50_sen_slope": -2.4
+      },
+      "ytd_incl_2026": {
+        "years": [
+          2013,
+          2026
+        ],
+        "n_years": 14,
+        "mp25_mean_trend": "decreasing",
+        "mp25_mean_p": 0.0285,
+        "mp25_mean_sen_slope": -2.37,
+        "days_over_50_trend": "decreasing",
+        "days_over_50_p": 0.0425,
+        "days_over_50_sen_slope": -3.4
+      }
+    },
+    "CoyhaiqueII": {
+      "complete_years": {
+        "years": [
+          2014,
+          2025
+        ],
+        "n_years": 12,
+        "mp25_mean_trend": "decreasing",
+        "mp25_mean_p": 0.0075,
+        "mp25_mean_sen_slope": -1.826,
+        "days_over_50_trend": "decreasing",
+        "days_over_50_p": 0.002,
+        "days_over_50_sen_slope": -4.929
+      },
+      "winter_incl_2026": {
+        "years": [
+          2014,
+          2026
+        ],
+        "n_years": 13,
+        "mp25_mean_trend": "no trend",
+        "mp25_mean_p": 0.0586,
+        "mp25_mean_sen_slope": -2.058,
+        "days_over_50_trend": "decreasing",
+        "days_over_50_p": 0.0103,
+        "days_over_50_sen_slope": -2.062
+      },
+      "ytd_incl_2026": {
+        "years": [
+          2014,
+          2026
+        ],
+        "n_years": 13,
+        "mp25_mean_trend": "decreasing",
+        "mp25_mean_p": 0.0327,
+        "mp25_mean_sen_slope": -1.763,
+        "days_over_50_trend": "decreasing",
+        "days_over_50_p": 0.0049,
+        "days_over_50_sen_slope": -3.75
+      }
+    },
+    "Vialidad": {
+      "complete_years": {
+        "years": [
+          2018,
+          2025
+        ],
+        "n_years": 8,
+        "mp25_mean_trend": "no trend",
+        "mp25_mean_p": 0.1078,
+        "mp25_mean_sen_slope": -1.148,
+        "days_over_50_trend": "no trend",
+        "days_over_50_p": 0.0809,
+        "days_over_50_sen_slope": -4.125
+      },
+      "winter_incl_2026": {
+        "years": [
+          2018,
+          2026
+        ],
+        "n_years": 9,
+        "mp25_mean_trend": "decreasing",
+        "mp25_mean_p": 0.0286,
+        "mp25_mean_sen_slope": -1.649,
+        "days_over_50_trend": "decreasing",
+        "days_over_50_p": 0.0211,
+        "days_over_50_sen_slope": -4.375
+      },
+      "ytd_incl_2026": {
+        "years": [
+          2019,
+          2026
+        ],
+        "n_years": 8,
+        "mp25_mean_trend": "no trend",
+        "mp25_mean_p": 0.0635,
+        "mp25_mean_sen_slope": -0.843,
+        "days_over_50_trend": "no trend",
+        "days_over_50_p": 0.0809,
+        "days_over_50_sen_slope": -3.143
+      }
+    }
+  },
+  "temporal_and_met": {
+    "acf_lags_0_14": [
+      1.0,
+      0.7707,
+      0.5786,
+      0.4957,
+      0.4525,
+      0.4309,
+      0.4179,
+      0.419,
+      0.4088,
+      0.4034,
+      0.4114,
+      0.4135,
+      0.4063,
+      0.406,
+      0.3833
+    ],
+    "pacf_lags_0_14": [
+      1.0,
+      0.7707,
+      -0.0377,
+      0.1529,
+      0.0706,
+      0.089,
+      0.068,
+      0.0915,
+      0.0351,
+      0.0687,
+      0.0776,
+      0.0483,
+      0.0374,
+      0.0594,
+      -0.0191
+    ],
+    "episode_vs_normal_tests": {
+      "temp": {
+        "episode_median": 3.74,
+        "episode_mean": 3.79,
+        "episode_iqr": [
+          1.64,
+          5.9
+        ],
+        "normal_median": 9.92,
+        "normal_mean": 10.05,
+        "normal_iqr": [
+          7.01,
+          12.89
+        ],
+        "mannwhitney_p": 0.0,
+        "n_ep": 1283,
+        "n_norm": 3062
+      },
+      "temp_min_24h": {
+        "episode_median": 0.3,
+        "episode_mean": 0.25,
+        "episode_iqr": [
+          -1.66,
+          2.5
+        ],
+        "normal_median": 6.14,
+        "normal_mean": 6.03,
+        "normal_iqr": [
+          3.5,
+          8.61
+        ],
+        "mannwhitney_p": 0.0,
+        "n_ep": 1283,
+        "n_norm": 3062
+      },
+      "velviento": {
+        "episode_median": 1.13,
+        "episode_mean": 1.31,
+        "episode_iqr": [
+          0.76,
+          1.61
+        ],
+        "normal_median": 3.04,
+        "normal_mean": 3.14,
+        "normal_iqr": [
+          1.96,
+          4.14
+        ],
+        "mannwhitney_p": 0.0,
+        "n_ep": 1284,
+        "n_norm": 3199
+      },
+      "humedad": {
+        "episode_median": 78.33,
+        "episode_mean": 77.07,
+        "episode_iqr": [
+          71.07,
+          84.34
+        ],
+        "normal_median": 63.63,
+        "normal_mean": 63.13,
+        "normal_iqr": [
+          55.94,
+          70.43
+        ],
+        "mannwhitney_p": 5.169e-264,
+        "n_ep": 1283,
+        "n_norm": 3062
+      },
+      "presion": {
+        "episode_median": 973.69,
+        "episode_mean": 972.97,
+        "episode_iqr": [
+          966.81,
+          979.5
+        ],
+        "normal_median": 971.67,
+        "normal_mean": 971.12,
+        "normal_iqr": [
+          967.04,
+          975.64
+        ],
+        "mannwhitney_p": 2.467e-13,
+        "n_ep": 1120,
+        "n_norm": 2913
+      },
+      "mp10": {
+        "episode_median": 100.97,
+        "episode_mean": 124.01,
+        "episode_iqr": [
+          73.81,
+          145.12
+        ],
+        "normal_median": 24.33,
+        "normal_mean": 27.55,
+        "normal_iqr": [
+          17.08,
+          36.01
+        ],
+        "mannwhitney_p": 0.0,
+        "n_ep": 1393,
+        "n_norm": 3328
+      },
+      "co": {
+        "episode_median": 1.42,
+        "episode_mean": 1.79,
+        "episode_iqr": [
+          1.03,
+          2.13
+        ],
+        "normal_median": 0.36,
+        "normal_mean": 0.45,
+        "normal_iqr": [
+          0.2,
+          0.61
+        ],
+        "mannwhitney_p": 0.0,
+        "n_ep": 1398,
+        "n_norm": 3271
+      },
+      "so2": {
+        "episode_median": 1.36,
+        "episode_mean": 2.66,
+        "episode_iqr": [
+          1.02,
+          2.65
+        ],
+        "normal_median": 1.0,
+        "normal_mean": 1.44,
+        "normal_iqr": [
+          1.0,
+          1.25
+        ],
+        "mannwhitney_p": 1.198e-141,
+        "n_ep": 1394,
+        "n_norm": 3276
+      },
+      "o3": {
+        "episode_median": 9.66,
+        "episode_mean": 10.32,
+        "episode_iqr": [
+          5.88,
+          13.79
+        ],
+        "normal_median": 13.14,
+        "normal_mean": 13.51,
+        "normal_iqr": [
+          10.13,
+          16.54
+        ],
+        "mannwhitney_p": 2.482e-86,
+        "n_ep": 1368,
+        "n_norm": 3147
+      }
+    },
+    "inter_station_spearman": {
+      "Cochrane_vs_Coyhaique": {
+        "spearman_rho": 0.7888,
+        "p_value": 0.0,
+        "n_days": 1606
+      },
+      "Cochrane_vs_CoyhaiqueII": {
+        "spearman_rho": 0.8223,
+        "p_value": 0.0,
+        "n_days": 1606
+      },
+      "Cochrane_vs_Vialidad": {
+        "spearman_rho": 0.819,
+        "p_value": 0.0,
+        "n_days": 1597
+      },
+      "Coyhaique_vs_CoyhaiqueII": {
+        "spearman_rho": 0.9583,
+        "p_value": 0.0,
+        "n_days": 4732
+      },
+      "Coyhaique_vs_Vialidad": {
+        "spearman_rho": 0.8128,
+        "p_value": 0.0,
+        "n_days": 3147
+      },
+      "CoyhaiqueII_vs_Vialidad": {
+        "spearman_rho": 0.8291,
+        "p_value": 0.0,
+        "n_days": 3148
+      }
+    }
+  },
+  "pca_clustering": {
+    "n_complete_days": 3949,
+    "date_range": [
+      "2015-08-28",
+      "2026-10-22"
+    ],
+    "features": [
+      "log_mp25",
+      "log_co",
+      "temp",
+      "humedad",
+      "velviento",
+      "presion"
+    ],
+    "explained_variance_ratio": [
+      0.5826,
+      0.1993,
+      0.1087,
+      0.0589,
+      0.0357,
+      0.0147
+    ],
+    "cumulative_variance_ratio": [
+      0.5826,
+      0.7819,
+      0.8907,
+      0.9495,
+      0.9853,
+      1.0
+    ],
+    "loadings": {
+      "PC1": {
+        "log_mp25": 0.5113,
+        "log_co": 0.4649,
+        "temp": -0.4454,
+        "humedad": 0.4226,
+        "velviento": -0.3797,
+        "presion": 0.0363
+      },
+      "PC2": {
+        "log_mp25": 0.0779,
+        "log_co": 0.1528,
+        "temp": 0.0823,
+        "humedad": -0.4124,
+        "velviento": -0.18,
+        "presion": 0.8726
+      },
+      "PC3": {
+        "log_mp25": 0.0831,
+        "log_co": 0.0236,
+        "temp": -0.5615,
+        "humedad": -0.0178,
+        "velviento": 0.7987,
+        "presion": 0.1977
+      }
+    },
+    "selected_model": {
+      "algorithm": "K-Means",
+      "k": 3,
+      "silhouette": 0.2463,
+      "davies_bouldin": 1.363,
+      "calinski_harabasz": 2068.8,
+      "temporal_ari": 0.974
+    },
+    "cluster_profiles": [
+      {
+        "cluster_id": 0,
+        "cluster_name": "C0: Calido-Ventilado (Limpio)",
+        "n_days": 1700,
+        "pct_days": 43.0,
+        "mp25_median": 9.9,
+        "mp25_mean": 11.6,
+        "episode_rate_pct": 0.3,
+        "share_of_all_episodes_pct": 0.5,
+        "temp_mean": 12.1,
+        "velviento_mean": 3.45,
+        "humedad_mean": 57.5,
+        "presion_mean": 972.8,
+        "co_mean": 0.34,
+        "winter_share_pct": 9.8
+      },
+      {
+        "cluster_id": 1,
+        "cluster_name": "C1: Frio-Transicion (Moderado)",
+        "n_days": 1341,
+        "pct_days": 34.0,
+        "mp25_median": 30.7,
+        "mp25_mean": 34.7,
+        "episode_rate_pct": 19.0,
+        "share_of_all_episodes_pct": 23.0,
+        "temp_mean": 6.6,
+        "velviento_mean": 2.31,
+        "humedad_mean": 72.7,
+        "presion_mean": 967.7,
+        "co_mean": 0.65,
+        "winter_share_pct": 71.1
+      },
+      {
+        "cluster_id": 2,
+        "cluster_name": "C2: Frio-Estancado (Critico)",
+        "n_days": 908,
+        "pct_days": 23.0,
+        "mp25_median": 102.0,
+        "mp25_mean": 122.4,
+        "episode_rate_pct": 93.4,
+        "share_of_all_episodes_pct": 76.5,
+        "temp_mean": 2.9,
+        "velviento_mean": 1.05,
+        "humedad_mean": 78.3,
+        "presion_mean": 975.3,
+        "co_mean": 1.96,
+        "winter_share_pct": 97.0
+      }
+    ]
+  },
+  "explanatory_validation": {
+    "train_period": [
+      "2015-08-29",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2026-10-22"
+    ],
+    "n_train": 2982,
+    "n_test": 1021,
+    "positive_rate_train_pct": 27.6,
+    "positive_rate_test_pct": 28.1,
+    "rf_feature_importances": {
+      "Solo Meteorologia": {
+        "temp": 0.1414,
+        "temp_min_24h": 0.1732,
+        "humedad": 0.0937,
+        "velviento": 0.2423,
+        "presion": 0.0264,
+        "sin_doy": 0.0347,
+        "cos_doy": 0.2883
+      },
+      "Meteorologia + Lag-1": {
+        "temp": 0.0924,
+        "temp_min_24h": 0.0995,
+        "humedad": 0.0366,
+        "velviento": 0.2008,
+        "presion": 0.0147,
+        "sin_doy": 0.0146,
+        "cos_doy": 0.2019,
+        "mp25_lag1": 0.2581,
+        "temp_lag1": 0.0567,
+        "velviento_lag1": 0.0247
+      }
+    }
+  }
+}

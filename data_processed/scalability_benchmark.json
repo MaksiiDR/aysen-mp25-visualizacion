@@ -1,0 +1,8 @@
+{
+  "heatmap_from_115k_s": 0.082,
+  "timeseries_from_115k_s": 0.59,
+  "calendar_from_115k_s": 0.044,
+  "star_schema_full_load_s": 0.089,
+  "hourly_raw_load_115k_s": 0.343,
+  "n_hourly_rows_coyhaiqueII": 115200
+}
