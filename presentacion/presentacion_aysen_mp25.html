@@ -16,24 +16,24 @@
            Edit :root variables to adjust palette/type
            =========================================== */
         :root {
-            --stage-bg: #0d160e;
-            --slide-bg: #192b1b;
+            --stage-bg: #d8d3c4;
+            --slide-bg: #e8e4d6;
 
-            /* Grove Palette */
-            --c-bg: #192b1b;
-            --c-bg-alt: #1e3221;
+            /* Uniform Warm Parchment Palette (sin fondo verde) */
+            --c-bg: #e8e4d6;
+            --c-bg-alt: #dedad0;
             --c-bg-light: #e8e4d6;
             --c-bg-light-alt: #dedad0;
-            --c-fg: #d4cfbf;
-            --c-fg-2: rgba(212, 207, 191, 0.66);
-            --c-fg-3: rgba(212, 207, 191, 0.36);
+            --c-fg: #192b1b;
+            --c-fg-2: rgba(25, 43, 27, 0.64);
+            --c-fg-3: rgba(25, 43, 27, 0.38);
             --c-fg-light: #192b1b;
             --c-fg-light-2: rgba(25, 43, 27, 0.64);
-            --c-fg-light-3: rgba(25, 43, 27, 0.36);
+            --c-fg-light-3: rgba(25, 43, 27, 0.38);
             --c-accent: #c8524a;
-            --c-border: rgba(212, 207, 191, 0.14);
+            --c-border: rgba(25, 43, 27, 0.16);
             --c-border-light: rgba(25, 43, 27, 0.16);
-            --c-wm-dark: rgba(212, 207, 191, 0.055);
+            --c-wm-dark: rgba(25, 43, 27, 0.055);
             --c-wm-light: rgba(25, 43, 27, 0.055);
 
             /* Typography (1920x1080 fixed stage coordinates) */
@@ -350,13 +350,13 @@
             line-height: 1.25;
         }
 
-        /* Signature italic terracotta coral accent inside ANY serif headline */
+        /* Italic emphasis in the SAME uniform ink color (no mid-text color switch) */
         .display-title em,
         .h1-statement em,
         .h2 em,
         .h3 em,
         .quote-text em {
-            color: var(--c-accent);
+            color: inherit;
             font-style: italic;
             font-weight: 400;
         }
@@ -389,7 +389,7 @@
         }
 
         .accent {
-            color: var(--c-accent);
+            color: inherit;
         }
 
         /* Em-dash universal bullet list */
@@ -598,7 +598,7 @@
         }
 
         .grove-table td.score-hi {
-            color: var(--c-accent);
+            color: var(--c-fg);
             font-family: var(--f-mono);
             font-weight: 400;
             text-align: right;
@@ -784,11 +784,11 @@
         .notes-drawer {
             position: fixed;
             right: 20px;
-            bottom: 68px;
+            bottom: 54px;
             width: 420px;
-            background: rgba(18, 31, 20, 0.94);
-            color: var(--c-fg);
-            border: 1px solid rgba(212, 207, 191, 0.22);
+            background: #e8e4d6;
+            color: #192b1b;
+            border: 1px solid rgba(25, 43, 27, 0.25);
             padding: 18px 20px;
             z-index: 10002;
             font-family: var(--f-sans);
@@ -805,7 +805,7 @@
             align-items: center;
             padding-bottom: 10px;
             margin-bottom: 10px;
-            border-bottom: 1px solid rgba(212, 207, 191, 0.16);
+            border-bottom: 1px solid rgba(25, 43, 27, 0.18);
             font-family: var(--f-mono);
             font-size: 11px;
             letter-spacing: 0.12em;
@@ -1106,7 +1106,7 @@
                                 </table>
 
                                 <p class="body-text muted" style="margin-top: 22px; font-size: 19px;" data-anim="fade-in" data-delay="3">
-                                    Carga completa del esquema estrella Power BI (7 tablas): <span class="accent">0,089 s</span> — 160× más rápido que el umbral propuesto de 15 s.
+                                    Carga completa del esquema estrella Power BI (7 tablas): 0,089 s — 160× más rápido que el umbral propuesto de 15 s.
                                 </p>
                             </div>
 
