@@ -32,13 +32,15 @@ Este repositorio contiene el flujo completo y reproducible para el análisis vis
 │   ├── 03_generate_figures.py      # Figuras 300 dpi para informe IEEE (3 figs) y presentación (5 figs)
 │   ├── 04_verify_all.py            # Pruebas de integridad, callbacks del dashboard y benchmark de escalabilidad
 │   ├── 05_build_paper_docx_pdf.py  # Generación del paper IEEE (.docx y .pdf)
-│   └── 06_build_presentation.py    # Generación de la presentación final (.pptx y .pdf)
+│   ├── 06_build_presentation.py    # Generación de la presentación final (.pptx y .pdf)
+│   └── 07_build_powerbi_pbip.py    # Generación del proyecto Power BI (PBIP + TMDL + PBIR)
 ├── dashboard/
 │   └── app.py                      # Prototipo interactivo en Plotly Dash (5 pestañas + filtros YTD/invierno)
 ├── powerbi/
+│   ├── Aysen_MP25/                 # Proyecto Power BI listo para abrir (Aysen_MP25.pbip + SemanticModel TMDL + Report PBIR)
 │   ├── data/                       # Esquema estrella (dim_estacion, dim_fecha y 6 tablas de hechos CSV)
-│   ├── medidas.dax                 # Medidas DAX (norma DS 12, GEC, YTD comparable, completitud)
-│   └── README_PowerBI.md           # Guía de modelado, relaciones y diseño de páginas en Power BI Desktop
+│   ├── medidas.dax                 # Respaldo de medidas DAX (norma DS 12, GEC, YTD comparable, completitud)
+│   └── README_PowerBI.md           # Guía de apertura en Power BI Desktop, parámetro CarpetaDatos y estructura del modelo
 ├── data_processed/                 # Resúmenes reproducibles, resultados JSON y métricas de evaluación
 ├── informe/
 │   ├── paper_aysen_mp25.pdf        # Informe final IEEE en español (4 páginas contenido + 1 página referencias)

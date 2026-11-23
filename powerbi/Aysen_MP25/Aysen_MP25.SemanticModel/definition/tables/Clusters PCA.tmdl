@@ -1,0 +1,88 @@
+/// Regimenes ambientales diarios identificados por PCA + K-Means (k=3) en Coyhaique II (2015-2026).
+table 'Clusters PCA'
+
+	/// Promedio de la primera componente principal (gradiente termico y viento).
+	measure 'PC1 Promedio' = AVERAGE('Clusters PCA'[PC1])
+		formatString: 0.00
+		displayFolder: Regimenes PCA
+
+	/// Promedio de la segunda componente principal (humedad y presion atmosferica).
+	measure 'PC2 Promedio' = AVERAGE('Clusters PCA'[PC2])
+		formatString: 0.00
+		displayFolder: Regimenes PCA
+
+	/// Cantidad de dias asignados al regimen ambiental.
+	measure 'Dias en Regimen' = COUNTROWS('Clusters PCA')
+		formatString: #,##0
+		displayFolder: Regimenes PCA
+
+	/// Concentracion media 24h de MP2,5 (ug/m3) dentro del regimen.
+	measure 'MP2,5 Promedio Regimen' = AVERAGE('Clusters PCA'[MP2,5 24h])
+		formatString: #,##0.0
+		displayFolder: Regimenes PCA
+
+	column Fecha
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Estacion ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: station_id
+
+	column PC1
+		dataType: decimal
+		formatString: 0.00
+		summarizeBy: none
+		sourceColumn: PC1
+
+	column PC2
+		dataType: decimal
+		formatString: 0.00
+		summarizeBy: none
+		sourceColumn: PC2
+
+	column PC3
+		dataType: decimal
+		formatString: 0.00
+		summarizeBy: none
+		sourceColumn: PC3
+
+	column 'Cluster ID'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: cluster_id
+
+	/// Nombre interpretativo del regimen ambiental.
+	column Regimen
+		dataType: string
+		summarizeBy: none
+		sourceColumn: cluster_name
+		sortByColumn: 'Cluster ID'
+
+	column 'MP2,5 24h'
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: mp25_24h
+
+	column 'Sobre Norma 50'
+		dataType: decimal
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: over_norm_50
+
+	partition 'Clusters PCA' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_clusters_pca.csv"), [Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"station_id", type text}, {"PC1", type number}, {"PC2", type number}, {"PC3", type number}, {"cluster_id", Int64.Type}, {"cluster_name", type text}, {"mp25_24h", type number}, {"over_norm_50", type number}}, "en-US")
+			in
+				#"Changed Type"

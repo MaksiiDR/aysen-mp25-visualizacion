@@ -1,0 +1,313 @@
+/// Tabla de hechos diaria de MP2,5, otros contaminantes y meteorologia (regla DS N 12/2011 >=18h).
+table 'Calidad Aire Diaria'
+
+	/// Promedio diario 24h de MP2,5 en ug/m3 sobre dias validos (>=18 horas).
+	measure 'MP2,5 Promedio 24h' = AVERAGE('Calidad Aire Diaria'[MP2,5 24h])
+		formatString: #,##0.0 "ug/m3"
+		displayFolder: Calidad del Aire
+
+	/// Mediana diaria 24h de MP2,5 en ug/m3.
+	measure 'MP2,5 Mediana 24h' = MEDIAN('Calidad Aire Diaria'[MP2,5 24h])
+		formatString: #,##0.0 "ug/m3"
+		displayFolder: Calidad del Aire
+
+	/// Percentil 90 de concentracion diaria 24h de MP2,5.
+	measure 'MP2,5 Percentil 90' = ```
+			PERCENTILEX.INC(
+				FILTER('Calidad Aire Diaria', NOT(ISBLANK('Calidad Aire Diaria'[MP2,5 24h]))),
+				'Calidad Aire Diaria'[MP2,5 24h],
+				0.90
+			)
+			```
+		formatString: #,##0.0 "ug/m3"
+		displayFolder: Calidad del Aire
+
+	/// Cantidad de dias con al menos 18 horas validas de medicion MP2,5.
+	measure 'Dias Validos' = ```
+			CALCULATE(
+				COUNTROWS('Calidad Aire Diaria'),
+				'Calidad Aire Diaria'[Dia Valido MP2,5] = TRUE()
+			)
+			```
+		formatString: #,##0
+		displayFolder: Calidad del Aire
+
+	/// Cantidad de dias validos que superan la norma diaria DS 12 (>50 ug/m3).
+	measure 'Dias Sobre Norma' = ```
+			CALCULATE(
+				COUNTROWS('Calidad Aire Diaria'),
+				'Calidad Aire Diaria'[Sobre Norma 50] = 1
+			)
+			```
+		formatString: #,##0
+		displayFolder: Calidad del Aire
+
+	/// Porcentaje de dias validos que superan los 50 ug/m3.
+	measure 'Tasa Episodios' = DIVIDE([Dias Sobre Norma], [Dias Validos], 0)
+		formatString: 0.0%
+		displayFolder: Calidad del Aire
+
+	/// Dias sobre norma dentro de la ventana comparable 1 ene - 23 oct.
+	measure 'Dias Sobre Norma YTD' = ```
+			CALCULATE(
+				[Dias Sobre Norma],
+				Calendario[Ventana YTD Comparable] = TRUE()
+			)
+			```
+		formatString: #,##0
+		displayFolder: Calidad del Aire
+
+	/// Promedio 24h de MP2,5 restringido a temporada invernal (abril-septiembre).
+	measure 'MP2,5 Promedio Invierno' = ```
+			CALCULATE(
+				[MP2,5 Promedio 24h],
+				Calendario[Temporada Invernal] = TRUE()
+			)
+			```
+		formatString: #,##0.0 "ug/m3"
+		displayFolder: Calidad del Aire
+
+	/// Dias clasificados en Alerta ambiental GEC (80-109 ug/m3).
+	measure 'Dias Alerta' = ```
+			CALCULATE(
+				COUNTROWS('Calidad Aire Diaria'),
+				'Calidad Aire Diaria'[Categoria GEC] = "Alerta (80-109)"
+			)
+			```
+		formatString: #,##0
+		displayFolder: Episodios GEC
+
+	/// Dias clasificados en Preemergencia ambiental GEC (110-169 ug/m3).
+	measure 'Dias Preemergencia' = ```
+			CALCULATE(
+				COUNTROWS('Calidad Aire Diaria'),
+				'Calidad Aire Diaria'[Categoria GEC] = "Preemergencia (110-169)"
+			)
+			```
+		formatString: #,##0
+		displayFolder: Episodios GEC
+
+	/// Dias clasificados en Emergencia ambiental GEC (>=170 ug/m3).
+	measure 'Dias Emergencia' = ```
+			CALCULATE(
+				COUNTROWS('Calidad Aire Diaria'),
+				'Calidad Aire Diaria'[Categoria GEC] = "Emergencia (>=170)"
+			)
+			```
+		formatString: #,##0
+		displayFolder: Episodios GEC
+
+	/// Porcentaje de dias calendario registrados que cumplen criterio >=18 horas validas.
+	measure 'Completitud MP2,5' = DIVIDE([Dias Validos], COUNTROWS('Calidad Aire Diaria'), 0)
+		formatString: 0.0%
+		displayFolder: Calidad de Datos
+
+	/// Proporcion de dias validos con estado preliminar o no validado en SINCA.
+	measure 'Datos Preliminares' = ```
+			VAR DiasNoVal =
+				CALCULATE(
+					COUNTROWS('Calidad Aire Diaria'),
+					'Calidad Aire Diaria'[Dia Valido MP2,5] = TRUE(),
+					'Calidad Aire Diaria'[Calidad Dato Dia] <> "validado"
+				)
+			RETURN
+				DIVIDE(DiasNoVal, [Dias Validos], 0)
+			```
+		formatString: 0.0%
+		displayFolder: Calidad de Datos
+
+	/// Temperatura media diaria en grados Celsius.
+	measure 'Temperatura Media' = AVERAGE('Calidad Aire Diaria'[Temperatura])
+		formatString: 0.0 "C"
+		displayFolder: Meteorologia
+
+	/// Temperatura media en dias con episodios sobre norma (>50 ug/m3).
+	measure 'Temperatura en Episodios' = ```
+			CALCULATE(
+				AVERAGE('Calidad Aire Diaria'[Temperatura]),
+				'Calidad Aire Diaria'[Sobre Norma 50] = 1
+			)
+			```
+		formatString: 0.0 "C"
+		displayFolder: Meteorologia
+
+	/// Velocidad media diaria del viento en m/s.
+	measure 'Viento Medio' = AVERAGE('Calidad Aire Diaria'[Velocidad Viento])
+		formatString: 0.00 "m/s"
+		displayFolder: Meteorologia
+
+	/// Velocidad media del viento durante dias con episodios (>50 ug/m3).
+	measure 'Viento en Episodios' = ```
+			CALCULATE(
+				AVERAGE('Calidad Aire Diaria'[Velocidad Viento]),
+				'Calidad Aire Diaria'[Sobre Norma 50] = 1
+			)
+			```
+		formatString: 0.00 "m/s"
+		displayFolder: Meteorologia
+
+	/// Humedad relativa media diaria en porcentaje.
+	measure 'Humedad Media' = AVERAGE('Calidad Aire Diaria'[Humedad])
+		formatString: 0.0 "%"
+		displayFolder: Meteorologia
+
+	column Fecha
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Estacion ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: station_id
+
+	column Ano
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: year
+
+	column Mes
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: month
+
+	column Dia
+		dataType: int64
+		isHidden
+		summarizeBy: none
+		sourceColumn: day
+
+	column 'Es Invierno'
+		dataType: boolean
+		isHidden
+		summarizeBy: none
+		sourceColumn: is_winter_season
+
+	column 'Es YTD'
+		dataType: boolean
+		isHidden
+		summarizeBy: none
+		sourceColumn: is_ytd_window
+
+	column 'Horas Validas MP2,5'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: mp25_count
+
+	column 'Dia Valido MP2,5'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: mp25_valid_day
+
+	column 'MP2,5 24h'
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: mp25_24h
+
+	column 'MP2,5 Max Horario'
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: mp25_max
+
+	column 'Sobre Norma 50'
+		dataType: decimal
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: over_norm_50
+
+	/// Categoria oficial de Gestion de Episodios Criticos (DS N 12/2011).
+	column 'Categoria GEC'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: gec_category
+
+	/// Estado de validacion del registro diario en SINCA.
+	column 'Calidad Dato Dia'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: mp25_day_quality
+
+	column MP10
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: mp10
+
+	column CO
+		dataType: decimal
+		formatString: #,##0.00
+		summarizeBy: none
+		sourceColumn: co
+
+	column SO2
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: so2
+
+	column O3
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: o3
+
+	column Temperatura
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: temp
+
+	column 'Temperatura Minima 24h'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: temp_min_24h
+
+	column Humedad
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: humedad
+
+	column Presion
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: presion
+
+	column 'Velocidad Viento'
+		dataType: decimal
+		formatString: 0.00
+		summarizeBy: none
+		sourceColumn: velviento
+
+	column 'Velocidad Viento Max 24h'
+		dataType: decimal
+		formatString: 0.00
+		summarizeBy: none
+		sourceColumn: velviento_max_24h
+
+	column 'Ano Mes'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm
+		summarizeBy: none
+		sourceColumn: year_month
+
+	partition 'Calidad Aire Diaria' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_calidad_aire_diaria.csv"), [Delimiter=",", Columns=25, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"station_id", type text}, {"year", Int64.Type}, {"month", Int64.Type}, {"day", Int64.Type}, {"is_winter_season", type logical}, {"is_ytd_window", type logical}, {"mp25_count", Int64.Type}, {"mp25_valid_day", type logical}, {"mp25_24h", type number}, {"mp25_max", type number}, {"over_norm_50", type number}, {"gec_category", type text}, {"mp25_day_quality", type text}, {"mp10", type number}, {"co", type number}, {"so2", type number}, {"o3", type number}, {"temp", type number}, {"temp_min_24h", type number}, {"humedad", type number}, {"presion", type number}, {"velviento", type number}, {"velviento_max_24h", type number}, {"year_month", type date}}, "en-US")
+			in
+				#"Changed Type"

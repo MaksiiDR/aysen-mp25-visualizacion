@@ -1,39 +1,45 @@
-# Implementacion en Power BI — Episodios de MP2,5 y Clima en la Region de Aysen
+# Proyecto Power BI (PBIP) — Episodios de MP2,5 y Clima en la Región de Aysén
 
-Siguiendo la retroalimentacion de la Presentacion 1, el flujo de trabajo separa:
-1. **Pruebas preliminares, limpieza, auditoria de datos faltantes, descomposicion de series de tiempo (STL, ACF/CCF) y modelado (PCA/clustering/validacion)** en **Python** (`src/` y prototipo interactivo en `dashboard/app.py`).
-2. **Implementacion final de visualizacion ejecutiva** en **Power BI Desktop** sobre un modelo estrella limpio y pre-validado (`powerbi/data/`).
+Este directorio incluye el **proyecto completo de Power BI Desktop en formato PBIP + TMDL + PBIR** ya armado, listo para abrir y actualizar sin configuración manual:
 
-## 1. Modelo de Datos (Esquema Estrella)
+- [`Aysen_MP25/Aysen_MP25.pbip`](Aysen_MP25/Aysen_MP25.pbip) — acceso directo al proyecto Power BI.
+- [`Aysen_MP25/Aysen_MP25.SemanticModel/`](Aysen_MP25/Aysen_MP25.SemanticModel/) — modelo estrella en **TMDL** (8 tablas, 9 relaciones 1→\*, 32 medidas DAX con descripciones y formato, parámetro Power Query `CarpetaDatos` con cultura `"en-US"` y UTF-8).
+- [`Aysen_MP25/Aysen_MP25.Report/`](Aysen_MP25/Aysen_MP25.Report/) — informe **PBIR** de 3 páginas (22 visuales, tema editorial de alto contraste `AysenEditorialTheme-8c4a2e1f.json`), validado con 0 errores y 0 advertencias mediante `@microsoft/powerbi-report-authoring-cli`.
+- [`data/`](data/) — los 8 archivos CSV limpios y auditados del esquema estrella.
+- [`medidas.dax`](medidas.dax) — respaldo legible de las fórmulas DAX base.
 
-Importar desde `powerbi/data/` los siguientes archivos CSV (separador `,`, codificacion UTF-8):
+---
 
-| Tabla | Rol | Clave | Descripcion |
+## Cómo abrir el reporte en Power BI Desktop (3 pasos)
+
+1. **Habilitar formato PBIP/PBIR (si tu Power BI Desktop es anterior a 2025):**
+   - `Archivo` → `Opciones y configuración` → `Opciones` → `Características de versión preliminar` → activar **Guardar proyecto de Power BI (.pbip)** y **Almacenar informes con el formato de metadatos mejorado (PBIR)**, y reiniciar Desktop.
+2. **Abrir [`Aysen_MP25/Aysen_MP25.pbip`](Aysen_MP25/Aysen_MP25.pbip)** haciendo doble clic o desde `Archivo` → `Abrir`.
+3. **Actualizar datos (y ajustar ruta si lo abres en otro PC):**
+   - Si clonaste el repositorio en otra ruta de Windows, haz clic en `Transformar datos` → `Editar parámetros` → cambia **`CarpetaDatos`** a tu carpeta local `...\powerbi\data` (sin barra final) y haz clic en `Aplicar cambios`.
+   - Haz clic en **`Actualizar`** (Refresh) para cargar los 8 CSV al modelo Import.
+
+> **Nota sobre regeneración reproducible:** El proyecto completo se genera de forma determinista con `python src/07_build_powerbi_pbip.py`.
+
+---
+
+## Estructura del Modelo Estrella (TMDL)
+
+| Tabla en Modelo | Archivo CSV en `powerbi/data/` | Rol | Relaciones (1→\*) |
 |---|---|---|---|
-| `dim_estacion.csv` | Dimension | `station_id` | Metadatos y coordenadas geograficas de Coyhaique II, Coyhaique, Vialidad y Cochrane. |
-| `dim_fecha.csv` | Dimension | `date` | Calendario continuo 2013–2026 con banderas `is_winter_season` (Abr–Sep), `is_ytd_comparable` (Ene 1–Oct 23) y `year_status`. |
-| `fact_calidad_aire_diaria.csv` | Hechos | `date`, `station_id` | Promedios diarios (regla DS 12: >= 18 h validas), categorias GEC, estado de validacion SINCA y meteorologia diaria. |
-| `fact_ciclo_horario_mensual.csv` | Hechos (agregada) | `station_id`, `month`, `hour` | Matriz 12 × 24 pre-agregada para mapa de calor de ciclo diario y estacional (evita cargar >360 mil filas horarias). |
-| `fact_resumen_anual_completitud.csv` | Hechos (agregada) | `station_id`, `year` | Completitud anual, invernal y YTD por estacion para auditar anos parciales (2013, 2026). |
-| `fact_stl_descomposicion.csv` | Hechos (series) | `date`, `station_id` | Componentes STL (tendencia, estacionalidad y residuo) generados en Python (`02_timeseries_and_ml.py`). |
-| `fact_clusters_pca.csv` | Hechos (ML) | `date`, `station_id` | Coordenadas PC1/PC2 y asignacion de cluster de regimenes climatico-contaminantes (Coyhaique II). |
-| `fact_rosa_vientos.csv` | Hechos (estatica) | `station_id`, `angle_center_deg` | Frecuencia direccional historica por 24 sectores de 15° (solo Coyhaique II, Coyhaique y Vialidad; SINCA no entrega direccion horaria). |
+| `Estacion` | `dim_estacion.csv` | Dimensión | Clave `Estacion ID` hacia las 6 tablas de hechos |
+| `Calendario` | `dim_fecha.csv` | Dimensión (`Time`) | Clave `Fecha` hacia `Calidad Aire Diaria`, `Descomposicion STL` y `Clusters PCA` |
+| `Calidad Aire Diaria` | `fact_calidad_aire_diaria.csv` | Hechos diarios | `Estacion`, `Calendario` (18 medidas DAX: MP2,5, GEC, completitud, clima) |
+| `Ciclo Horario Mensual` | `fact_ciclo_horario_mensual.csv` | Hechos agregados | `Estacion` (matriz 24 h × 12 meses) |
+| `Resumen Anual` | `fact_resumen_anual_completitud.csv` | Hechos auditoría | `Estacion` (completitud anual/invierno/YTD) |
+| `Descomposicion STL` | `fact_stl_descomposicion.csv` | Hechos series | `Estacion`, `Calendario` (observado, tendencia, estacionalidad STL) |
+| `Clusters PCA` | `fact_clusters_pca.csv` | Hechos ML | `Estacion`, `Calendario` (PC1/PC2/PC3 y regímenes K-Means en Coyhaique II) |
+| `Rosa Vientos` | `fact_rosa_vientos.csv` | Hechos climatología | `Estacion` (24 sectores de 15° históricos SINCA, sin dimensión temporal) |
 
-### Relaciones a configurar en Vista de Modelo
-- `dim_estacion[station_id]` (1) → (*) `fact_calidad_aire_diaria[station_id]`
-- `dim_fecha[date]` (1) → (*) `fact_calidad_aire_diaria[date]`
-- `dim_estacion[station_id]` (1) → (*) `fact_ciclo_horario_mensual[station_id]`
-- `dim_estacion[station_id]` (1) → (*) `fact_stl_descomposicion[station_id]` y `dim_fecha[date]` (1) → (*) `fact_stl_descomposicion[date]`
-- `dim_estacion[station_id]` (1) → (*) `fact_clusters_pca[station_id]` y `dim_fecha[date]` (1) → (*) `fact_clusters_pca[date]`
-- `dim_estacion[station_id]` (1) → (*) `fact_rosa_vientos[station_id]`
+---
 
-## 2. Medidas DAX
-Copiar y crear una tabla de medidas (`_Medidas`) con las formulas de [`medidas.dax`](medidas.dax), incluyendo:
-- Cumplimiento normativo DS 12 (`Dias Sobre Norma (>50 ug/m3)`, `Tasa Episodios (%)`).
-- Comparacion justa del ano incompleto 2026 (`Dias Sobre Norma YTD Comparable`, `MP25 Promedio Invierno (Abr-Sep)`).
-- Transparencia de calidad (`Completitud MP25 (%)`, `Porcentaje Datos Preliminares o No Validados`).
+## Páginas del Informe PBIR (1280 × 720)
 
-## 3. Estructura de Paginas del Informe Power BI
-1. **Resumen Regional y Episodios**: Tarjetas KPI, Mapa de estaciones (`lat`/`lon`, tamano por dias >50), barras apiladas anuales por categoria GEC con selector `Ano completo vs. YTD comparable (Ene–Oct)` y advertencia automatica de 2026 incompleto.
-2. **Patrones Temporales y STL**: Serie de tiempo mensual + linea de tendencia STL (`fact_stl_descomposicion`), matriz con formato condicional (heatmap `hora × mes` desde `fact_ciclo_horario_mensual`) y filtro por estacion.
-3. **Clima, Regimenes (PCA/Clusters) y Viento**: Dispersion `PC1 vs. PC2` coloreada por cluster (`fact_clusters_pca`), cajas/dispersion de `MP2,5 vs. Temperatura` y `MP2,5 vs. Velocidad del Viento`, y grafico polar/barras circulares de frecuencia climatologica (`fact_rosa_vientos`) con nota explicita de disponibilidad historica agregada.
+1. **`Resumen Regional`**: Filtros desplegables (`Estacion`, `Ano`, `Ventana YTD`), tarjeta KPI de 5 indicadores (`MP2,5 Promedio 24h`, `Dias Sobre Norma`, `Tasa Episodios`, `Completitud MP2,5`, `Datos Preliminares`), columnas apiladas por año y categoría GEC, y `azureMap` con coordenadas oficiales (`Latitud`/`Longitud`).
+2. **`Series de Tiempo y Ciclo`**: Filtros (`Estacion`, `Temporada Invernal`), gráfico de líneas (`MP2,5 Mensual Observado` vs `Tendencia STL`), matriz `Hora × Mes` (`MP2,5 Horario Promedio`) y tabla de auditoría anual de completitud y episodios YTD.
+3. **`Clima, Regimenes PCA y Viento`**: Filtros (`Regimen`, `Temporada Invernal`), tarjeta KPI meteorológica (4 métricas), dispersión `PC1 vs PC2` diaria por régimen ambiental (Coyhaique II) y barras agrupadas de frecuencia climatológica de viento por sector de 15°.

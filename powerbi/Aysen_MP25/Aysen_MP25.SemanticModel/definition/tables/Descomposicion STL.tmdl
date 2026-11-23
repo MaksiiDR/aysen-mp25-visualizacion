@@ -1,0 +1,75 @@
+/// Descomposicion estacional-tendencia robusta (STL) mensual del MP2,5 por estacion.
+table 'Descomposicion STL'
+
+	/// Promedio mensual observado de MP2,5 (ug/m3).
+	measure 'MP2,5 Mensual Observado' = AVERAGE('Descomposicion STL'[Observado MP2,5])
+		formatString: #,##0.0
+		displayFolder: Series de Tiempo
+
+	/// Componente de tendencia estructural extraido mediante STL robusto.
+	measure 'Tendencia STL' = AVERAGE('Descomposicion STL'[Tendencia])
+		formatString: #,##0.0
+		displayFolder: Series de Tiempo
+
+	/// Componente estacional mensual extraido mediante STL robusto.
+	measure 'Estacionalidad STL' = AVERAGE('Descomposicion STL'[Estacionalidad])
+		formatString: #,##0.0
+		displayFolder: Series de Tiempo
+
+	column Fecha
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Estacion ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: station_id
+
+	column 'Observado MP2,5'
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: observed_mp25
+
+	column 'Entrada STL'
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: stl_input_mp25
+
+	column 'Fue Interpolado'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: was_interpolated
+
+	column Tendencia
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: trend
+
+	column Estacionalidad
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: seasonal
+
+	column Residuo
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: resid
+
+	partition 'Descomposicion STL' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_stl_descomposicion.csv"), [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"station_id", type text}, {"observed_mp25", type number}, {"stl_input_mp25", type number}, {"was_interpolated", type logical}, {"trend", type number}, {"seasonal", type number}, {"resid", type number}}, "en-US")
+			in
+				#"Changed Type"

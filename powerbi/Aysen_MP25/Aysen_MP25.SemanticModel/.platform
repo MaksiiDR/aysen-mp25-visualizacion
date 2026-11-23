@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Aysen_MP25"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "7e41c92a-5b3f-48d1-a6e2-91f8c4d03b57"
+  }
+}

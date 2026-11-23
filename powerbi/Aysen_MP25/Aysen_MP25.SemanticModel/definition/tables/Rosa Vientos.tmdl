@@ -1,0 +1,54 @@
+/// Frecuencias climatologicas historicas de direccion del viento (24 sectores de 15 grados, SINCA).
+table 'Rosa Vientos'
+
+	/// Frecuencia porcentual climatologica del viento por sector direccional.
+	measure 'Frecuencia Viento' = SUM('Rosa Vientos'[Frecuencia Pct]) / 100
+		formatString: 0.0%
+		displayFolder: Viento Climatologico
+
+	column 'Estacion ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: station_id
+
+	/// Sector direccional de 15 grados ordenado por angulo central.
+	column Sector
+		dataType: string
+		summarizeBy: none
+		sourceColumn: sector_label
+		sortByColumn: 'Angulo Centro'
+
+	column 'Angulo Inicio'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: angle_start_deg
+
+	column 'Angulo Fin'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: angle_end_deg
+
+	column 'Angulo Centro'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: angle_center_deg
+
+	column 'Frecuencia Pct'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: freq_pct
+
+	partition 'Rosa Vientos' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_rosa_vientos.csv"), [Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"station_id", type text}, {"sector_label", type text}, {"angle_start_deg", type number}, {"angle_end_deg", type number}, {"angle_center_deg", type number}, {"freq_pct", type number}}, "en-US")
+			in
+				#"Changed Type"

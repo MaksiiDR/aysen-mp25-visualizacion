@@ -1,0 +1,14 @@
+model Model
+	culture: es-CL
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	discourageImplicitMeasures
+
+ref table Estacion
+ref table Calendario
+ref table 'Calidad Aire Diaria'
+ref table 'Ciclo Horario Mensual'
+ref table 'Resumen Anual'
+ref table 'Descomposicion STL'
+ref table 'Clusters PCA'
+ref table 'Rosa Vientos'

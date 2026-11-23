@@ -1,0 +1,79 @@
+/// Dimension calendario oficial con indicadores de temporada invernal y ventana YTD comparable.
+table Calendario
+	dataCategory: Time
+
+	/// Fecha calendario (clave primaria).
+	column Fecha
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: date
+
+	/// Ano calendario.
+	column Ano
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: year
+
+	/// Numero de mes (1 a 12).
+	column Mes
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: month
+
+	/// Nombre abreviado del mes ordenado cronologicamente.
+	column 'Mes Nombre'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: month_name
+		sortByColumn: Mes
+
+	/// Trimestre calendario (T1 a T4).
+	column Trimestre
+		dataType: string
+		summarizeBy: none
+		sourceColumn: quarter
+
+	/// Dia de la semana (0=Lun a 6=Dom).
+	column 'Dia Semana'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: day_of_week
+
+	/// Indica si corresponde a fin de semana.
+	column 'Es Fin de Semana'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+	/// Temporada invernal de gestion de episodios criticos (abril a septiembre).
+	column 'Temporada Invernal'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_winter_season
+
+	/// Ventana comparable 1 ene - 23 oct para comparar 2026 sin sesgo con anos previos.
+	column 'Ventana YTD Comparable'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_ytd_comparable
+
+	/// Estado de completitud del ano calendario (Completo vs Parcial hasta 23-oct-2026).
+	column 'Estado Ano'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: year_status
+
+	partition Calendario = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\dim_fecha.csv"), [Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"year", Int64.Type}, {"month", Int64.Type}, {"month_name", type text}, {"quarter", type text}, {"day_of_week", Int64.Type}, {"is_weekend", type logical}, {"is_winter_season", type logical}, {"is_ytd_comparable", type logical}, {"year_status", type text}}, "en-US")
+			in
+				#"Changed Type"

@@ -1,0 +1,35 @@
+relationship 'Calidad Aire Diaria a Estacion'
+	fromColumn: 'Calidad Aire Diaria'.'Estacion ID'
+	toColumn: Estacion.'Estacion ID'
+
+relationship 'Calidad Aire Diaria a Calendario'
+	fromColumn: 'Calidad Aire Diaria'.Fecha
+	toColumn: Calendario.Fecha
+
+relationship 'Ciclo Horario Mensual a Estacion'
+	fromColumn: 'Ciclo Horario Mensual'.'Estacion ID'
+	toColumn: Estacion.'Estacion ID'
+
+relationship 'Resumen Anual a Estacion'
+	fromColumn: 'Resumen Anual'.'Estacion ID'
+	toColumn: Estacion.'Estacion ID'
+
+relationship 'Descomposicion STL a Estacion'
+	fromColumn: 'Descomposicion STL'.'Estacion ID'
+	toColumn: Estacion.'Estacion ID'
+
+relationship 'Descomposicion STL a Calendario'
+	fromColumn: 'Descomposicion STL'.Fecha
+	toColumn: Calendario.Fecha
+
+relationship 'Clusters PCA a Estacion'
+	fromColumn: 'Clusters PCA'.'Estacion ID'
+	toColumn: Estacion.'Estacion ID'
+
+relationship 'Clusters PCA a Calendario'
+	fromColumn: 'Clusters PCA'.Fecha
+	toColumn: Calendario.Fecha
+
+relationship 'Rosa Vientos a Estacion'
+	fromColumn: 'Rosa Vientos'.'Estacion ID'
+	toColumn: Estacion.'Estacion ID'

@@ -1,0 +1,67 @@
+/// Dimension de estaciones de monitoreo SINCA en la Region de Aysen.
+table Estacion
+
+	/// Identificador tecnico de la estacion SINCA.
+	column 'Estacion ID'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: station_id
+
+	/// Nombre visible de la estacion.
+	column Estacion
+		dataType: string
+		summarizeBy: none
+		sourceColumn: station_name
+
+	/// Ciudad de ubicacion de la estacion.
+	column Ciudad
+		dataType: string
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: city
+
+	/// Latitud geografica (grados decimales).
+	column Latitud
+		dataType: decimal
+		dataCategory: Latitude
+		formatString: 0.0000
+		summarizeBy: none
+		sourceColumn: lat
+
+	/// Longitud geografica (grados decimales).
+	column Longitud
+		dataType: decimal
+		dataCategory: Longitude
+		formatString: 0.0000
+		summarizeBy: none
+		sourceColumn: lon
+
+	/// Indica si la estacion dispone de rosa de vientos historica SINCA.
+	column 'Tiene Rosa Vientos'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: has_wind_rose
+
+	/// Indica si la estacion dispone de meteorologia horaria.
+	column 'Tiene Meteorologia Horaria'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: has_met_hourly
+
+	/// Rol analitico de la estacion en el estudio.
+	column Rol
+		dataType: string
+		summarizeBy: none
+		sourceColumn: role
+
+	partition Estacion = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\dim_estacion.csv"), [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"station_id", type text}, {"station_name", type text}, {"city", type text}, {"lat", type number}, {"lon", type number}, {"has_wind_rose", type logical}, {"has_met_hourly", type logical}, {"role", type text}}, "en-US")
+			in
+				#"Changed Type"

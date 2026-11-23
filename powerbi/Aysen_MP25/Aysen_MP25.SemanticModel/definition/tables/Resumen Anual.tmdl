@@ -1,0 +1,143 @@
+/// Auditoria anual de completitud de datos, estado de validacion y episodios YTD por estacion.
+table 'Resumen Anual'
+
+	/// Porcentaje de dias validos del ano calendario.
+	measure 'Completitud Anual' = AVERAGE('Resumen Anual'[Completitud Ano Pct]) / 100
+		formatString: 0.0%
+		displayFolder: Auditoria Anual
+
+	/// Porcentaje de dias validos en temporada invernal (abr-sep).
+	measure 'Completitud Invierno' = AVERAGE('Resumen Anual'[Completitud Invierno Pct]) / 100
+		formatString: 0.0%
+		displayFolder: Auditoria Anual
+
+	/// Dias sobre norma (>50 ug/m3) en la ventana comparable 1 ene - 23 oct.
+	measure 'Dias >50 YTD' = SUM('Resumen Anual'[Dias Sobre 50 YTD])
+		formatString: #,##0
+		displayFolder: Auditoria Anual
+
+	/// Promedio invernal anual de MP2,5 (ug/m3).
+	measure 'MP2,5 Invierno Anual' = AVERAGE('Resumen Anual'[MP2,5 Medio Invierno])
+		formatString: #,##0.0
+		displayFolder: Auditoria Anual
+
+	column 'Estacion ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: station_id
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: year
+
+	column 'Dias Esperados'
+		dataType: int64
+		formatString: #,##0
+		summarizeBy: none
+		sourceColumn: expected_days
+
+	column 'Dias Validos MP2,5'
+		dataType: int64
+		formatString: #,##0
+		summarizeBy: none
+		sourceColumn: valid_days_mp25
+
+	column 'Completitud Ano Pct'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: completeness_year_pct
+
+	column 'Dias Validos Invierno'
+		dataType: int64
+		formatString: #,##0
+		summarizeBy: none
+		sourceColumn: valid_days_winter
+
+	column 'Completitud Invierno Pct'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: completeness_winter_pct
+
+	column 'Dias Validos YTD'
+		dataType: int64
+		formatString: #,##0
+		summarizeBy: none
+		sourceColumn: valid_days_ytd
+
+	column 'Completitud YTD Pct'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: completeness_ytd_pct
+
+	column 'Ano Completo'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_complete_year
+
+	column 'Invierno Completo'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_complete_winter
+
+	column 'YTD Completo'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_complete_ytd
+
+	column 'MP2,5 Medio Anual'
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: mean_mp25_all
+
+	column 'MP2,5 Medio Invierno'
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: mean_mp25_winter
+
+	column 'MP2,5 Medio YTD'
+		dataType: decimal
+		formatString: #,##0.0
+		summarizeBy: none
+		sourceColumn: mean_mp25_ytd
+
+	column 'Dias Sobre 50 Anual'
+		dataType: int64
+		formatString: #,##0
+		summarizeBy: none
+		sourceColumn: days_over_50_all
+
+	column 'Dias Sobre 50 Invierno'
+		dataType: int64
+		formatString: #,##0
+		summarizeBy: none
+		sourceColumn: days_over_50_winter
+
+	column 'Dias Sobre 50 YTD'
+		dataType: int64
+		formatString: #,##0
+		summarizeBy: none
+		sourceColumn: days_over_50_ytd
+
+	column 'Pct Preliminar o No Validado'
+		dataType: decimal
+		formatString: 0.0
+		summarizeBy: none
+		sourceColumn: pct_days_prelim_or_noval
+
+	partition 'Resumen Anual' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_resumen_anual_completitud.csv"), [Delimiter=",", Columns=19, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"station_id", type text}, {"year", Int64.Type}, {"expected_days", Int64.Type}, {"valid_days_mp25", Int64.Type}, {"completeness_year_pct", type number}, {"valid_days_winter", Int64.Type}, {"completeness_winter_pct", type number}, {"valid_days_ytd", Int64.Type}, {"completeness_ytd_pct", type number}, {"is_complete_year", type logical}, {"is_complete_winter", type logical}, {"is_complete_ytd", type logical}, {"mean_mp25_all", type number}, {"mean_mp25_winter", type number}, {"mean_mp25_ytd", type number}, {"days_over_50_all", Int64.Type}, {"days_over_50_winter", Int64.Type}, {"days_over_50_ytd", Int64.Type}, {"pct_days_prelim_or_noval", type number}}, "en-US")
+			in
+				#"Changed Type"
