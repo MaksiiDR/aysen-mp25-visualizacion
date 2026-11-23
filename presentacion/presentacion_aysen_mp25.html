@@ -924,19 +924,109 @@
 
                     <div class="slide-foot">
                         <span>MP2,5 Y CLIMA · REGIÓN DE AYSÉN</span>
-                        <span>02 / 13</span>
+                        <span>02 / 14</span>
                     </div>
                 </div>
             </section>
 
             <!-- ===================================================
-                 SLIDE 03 — RETROALIMENTACIÓN PRESENTACIÓN 1 (DARK)
+                 SLIDE 03 — DATASET SINCA Y CONTEXTO DE DATOS
                  =================================================== -->
-            <section class="slide" data-notes="[1:05–1:50 | 45s] Mostrar directamente cómo incorporamos cada una de las 3 observaciones escritas en la rúbrica de la Presentación 1: series de tiempo + Power BI, control de 2026 y verificación real de la rosa de vientos.">
-                <div class="grove-num" aria-hidden="true">03</div>
+            <section class="slide slide--light" data-notes="[1:00–1:40 | 40s] Explicar la fuente oficial (SINCA del Ministerio del Medio Ambiente, datos públicos descargados en oct. 2026), las 4 estaciones con sus periodos y variables disponibles, y cómo se define un episodio según la norma DS N° 12/2011 (50 µg/m³ en 24 h con ≥18 h válidas) y las categorías GEC.">
                 <div class="slide-inner">
                     <div class="slide-chrome">
-                        <span>02 · RETROALIMENTACIÓN PRESENTACIÓN 1</span>
+                        <span>02 · DATASET Y CONTEXTO DE DATOS</span>
+                        <span>FUENTE OFICIAL: SINCA · MINISTERIO DEL MEDIO AMBIENTE</span>
+                    </div>
+
+                    <div class="slide-body" style="justify-content: space-between; padding: 20px 0;">
+                        <div>
+                            <div class="kicker" data-anim="fade-up" data-delay="0">BASE DE DATOS PÚBLICA (OCTUBRE 2026)</div>
+                            <div class="rule-coral" data-anim="reveal-right" data-delay="1"></div>
+                            <h2 class="h2" data-anim="fade-up" data-delay="1" data-editable>
+                                25 archivos horarios oficiales de <em>cuatro estaciones</em> en Aysén
+                            </h2>
+                            <p class="lead" style="margin-top: 10px; font-size: 21px;" data-anim="fade-up" data-delay="1" data-editable>
+                                Registros horarios de contaminantes atmosféricos y meteorología descargados desde sinca.mma.gob.cl (licencia de datos públicos, corte al 23 de octubre de 2026).
+                            </p>
+                        </div>
+
+                        <table class="grove-table" style="margin: 18px 0;" data-anim="fade-up" data-delay="2">
+                            <thead>
+                                <tr>
+                                    <th>Estación</th>
+                                    <th>Ciudad</th>
+                                    <th>Variables disponibles</th>
+                                    <th>Período</th>
+                                    <th class="num">Registros MP2,5</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-weight: 600;">Coyhaique II</td>
+                                    <td>Coyhaique</td>
+                                    <td>MP2,5, MP10, CO, SO₂, O₃, temp., humedad, presión, vel. viento + rosa estática</td>
+                                    <td>Sep. 2013 – Oct. 2026</td>
+                                    <td class="num">115.200 h</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600;">Coyhaique</td>
+                                    <td>Coyhaique</td>
+                                    <td>MP2,5, MP10 (desde 2007), temperatura, humedad, vel. viento + rosa estática</td>
+                                    <td>Mar. 2013 – Oct. 2026</td>
+                                    <td class="num">119.616 h</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600;">Vialidad</td>
+                                    <td>Puerto Aysén</td>
+                                    <td>MP2,5; meteorología parcial (hasta 2023–2024) + rosa estática</td>
+                                    <td>Oct. 2017 – Oct. 2026</td>
+                                    <td class="num">78.864 h</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600;">Cochrane</td>
+                                    <td>Cochrane</td>
+                                    <td>Solo MP2,5 (sin sensores meteorológicos ni rosa de vientos en SINCA)</td>
+                                    <td>Mar. 2021 – Oct. 2026</td>
+                                    <td class="num">49.272 h</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="finding-strip" style="margin-top: 8px;" data-anim="fade-up" data-delay="3">
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">DEFINICIÓN DE EPISODIO (DS N° 12/2011)</div>
+                                <div class="finding-item__val">&gt; 50 µg/m³ · ≥ 18 h</div>
+                                <div class="finding-item__txt">Un día sobre norma requiere promedio de 24 h mayor a 50 µg/m³ calculado con al menos 18 horas válidas (75% del día).</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">CATEGORÍAS OFICIALES GEC</div>
+                                <div class="finding-item__val">5 niveles de riesgo</div>
+                                <div class="finding-item__txt">Bueno (≤50), Regular (50–79), Alerta (80–109), Preemergencia (110–169) y Emergencia (≥170 µg/m³).</div>
+                            </div>
+                            <div class="finding-item">
+                                <div class="finding-item__kicker">ESTRUCTURA DE VALIDACIÓN SINCA</div>
+                                <div class="finding-item__val">3 estados de dato</div>
+                                <div class="finding-item__txt">Cada CSV separa registros validados, preliminares y no validados; se preservan etiquetas y no se imputan huecos largos.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-foot">
+                        <span>DATASET SINCA · CONTEXTO Y NORMATIVA</span>
+                        <span>03 / 14</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================================================
+                 SLIDE 04 — RETROALIMENTACIÓN PRESENTACIÓN 1
+                 =================================================== -->
+            <section class="slide" data-notes="[1:40–2:20 | 40s] Mostrar directamente cómo incorporamos cada una de las 3 observaciones escritas en la rúbrica de la Presentación 1: series de tiempo + Power BI, control de 2026 y verificación real de la rosa de vientos.">
+                <div class="grove-num" aria-hidden="true">04</div>
+                <div class="slide-inner">
+                    <div class="slide-chrome">
+                        <span>03 · RETROALIMENTACIÓN PRESENTACIÓN 1</span>
                         <span>AJUSTES METODOLÓGICOS VERIFICADOS</span>
                     </div>
 
@@ -985,7 +1075,7 @@
 
                     <div class="slide-foot">
                         <span>INCORPORACIÓN DE RETROALIMENTACIÓN</span>
-                        <span>03 / 13</span>
+                        <span>04 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1045,7 +1135,7 @@
 
                     <div class="slide-foot">
                         <span>AUDITORÍA DE CALIDAD · 4 ESTACIONES SINCA</span>
-                        <span>04 / 13</span>
+                        <span>05 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1130,7 +1220,7 @@
 
                     <div class="slide-foot">
                         <span>EVALUACIÓN OBJETIVA · VISUALIZACIÓN Y MODELADO</span>
-                        <span>05 / 13</span>
+                        <span>06 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1139,7 +1229,7 @@
                  SLIDE 06 — TESIS CENTRAL DE RESULTADOS (DARK STATEMENT)
                  =================================================== -->
             <section class="slide" data-notes="[3:15–3:40 | 25s] Pausa narrativa de alto impacto antes de mostrar las figuras: sintetizar el hallazgo interanual clave en tres cifras concretas.">
-                <div class="grove-num" aria-hidden="true">06</div>
+                <div class="grove-num" aria-hidden="true">07</div>
                 <div class="slide-inner">
                     <div class="slide-chrome" style="border-bottom: none; padding-bottom: 0;">
                         <span>05 · HALLAZGO CENTRAL</span>
@@ -1176,7 +1266,7 @@
 
                     <div class="slide-foot" style="border-top: none; padding-top: 0;">
                         <span>RESULTADOS · EVOLUCIÓN INTERANUAL</span>
-                        <span>06 / 13</span>
+                        <span>07 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1223,7 +1313,7 @@
 
                     <div class="slide-foot">
                         <span>EXHIBIT 01 · TENDENCIAS Y EPISODIOS CRÍTICOS</span>
-                        <span>07 / 13</span>
+                        <span>08 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1270,7 +1360,7 @@
 
                     <div class="slide-foot">
                         <span>EXHIBIT 02 · MAPA DE CALOR Y PERFIL DIARIO</span>
-                        <span>08 / 13</span>
+                        <span>09 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1317,7 +1407,7 @@
 
                     <div class="slide-foot">
                         <span>EXHIBIT 03 · RELACIÓN METEOROLÓGICA Y ROSA DE VIENTOS</span>
-                        <span>09 / 13</span>
+                        <span>10 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1364,7 +1454,7 @@
 
                     <div class="slide-foot">
                         <span>EXHIBIT 04 · AGRUPAMIENTO Y VALIDACIÓN EXPLICATIVA</span>
-                        <span>10 / 13</span>
+                        <span>11 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1373,7 +1463,7 @@
                  SLIDE 11 — ARQUITECTURA PYTHON -> POWER BI (DARK)
                  =================================================== -->
             <section class="slide" data-notes="[6:30–7:10 | 40s] Mostrar el puente entre las pruebas preliminares en Python (prototipo Dash validado) y el esquema estrella normalizado + medidas DAX listo para Power BI Desktop, todo en el repositorio GitHub.">
-                <div class="grove-num" aria-hidden="true">11</div>
+                <div class="grove-num" aria-hidden="true">12</div>
                 <div class="slide-inner">
                     <div class="slide-chrome">
                         <span>09 · ARQUITECTURA INTERACTIVA</span>
@@ -1417,7 +1507,7 @@
 
                     <div class="slide-foot">
                         <span>IMPLEMENTACIÓN INTERACTIVA Y REPOSITORIO</span>
-                        <span>11 / 13</span>
+                        <span>12 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1464,7 +1554,7 @@
 
                     <div class="slide-foot">
                         <span>FORTALEZAS Y LIMITACIONES</span>
-                        <span>12 / 13</span>
+                        <span>13 / 14</span>
                     </div>
                 </div>
             </section>
@@ -1473,7 +1563,7 @@
                  SLIDE 13 — CONCLUSIONES Y CIERRE (DARK, CHROMELESS)
                  =================================================== -->
             <section class="slide" data-notes="[7:38–8:00 | 22s] Cerrar con la síntesis respaldada por literatura [1], [2], [6], las tres líneas concretas de trabajo futuro y agradecer al profesor y curso.">
-                <div class="grove-num" aria-hidden="true">13</div>
+                <div class="grove-num" aria-hidden="true">14</div>
                 <div class="slide-inner">
                     <div class="slide-chrome" style="border-bottom: none; padding-bottom: 0;">
                         <span>11 · CONCLUSIONES Y TRABAJO FUTURO</span>
@@ -1509,7 +1599,7 @@
 
                     <div class="slide-foot" style="padding-top: 22px;" data-anim="fade-in" data-delay="4">
                         <span>MUCHAS GRACIAS &nbsp;·&nbsp; MAXIMILIANO DEL RÍO LINCOÑIR &amp; PATRICIO AYLWIN RETAMAL</span>
-                        <span>EIN092B VISUALIZACIÓN &nbsp;·&nbsp; 13 / 13</span>
+                        <span>EIN092B VISUALIZACIÓN &nbsp;·&nbsp; 14 / 14</span>
                     </div>
                 </div>
             </section>
