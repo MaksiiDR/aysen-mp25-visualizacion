@@ -5,41 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MP2,5 y Clima en la Región de Aysén — Presentación Final (Grupo N° 2)</title>
 
-    <!-- Google Fonts: Grove Typography Stack (Playfair Display 400, Jost 300, JetBrains Mono 300) -->
+    <!-- Google Fonts: Tipografia unica (Plus Jakarta Sans 400/500/600/700) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&family=Jost:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 
     <style>
         /* ===========================================
-           THEME VARIABLES — GROVE EDITORIAL SYSTEM
+           THEME VARIABLES — EDITORIAL PARCHMENT (1 FONT)
            Edit :root variables to adjust palette/type
            =========================================== */
         :root {
             --stage-bg: #d8d3c4;
             --slide-bg: #e8e4d6;
 
-            /* Uniform Warm Parchment Palette (sin fondo verde) */
+            /* High-contrast Warm Parchment Palette (WCAG AAA) */
             --c-bg: #e8e4d6;
-            --c-bg-alt: #dedad0;
+            --c-bg-alt: #ded9ca;
             --c-bg-light: #e8e4d6;
-            --c-bg-light-alt: #dedad0;
-            --c-fg: #192b1b;
-            --c-fg-2: rgba(25, 43, 27, 0.64);
-            --c-fg-3: rgba(25, 43, 27, 0.38);
-            --c-fg-light: #192b1b;
-            --c-fg-light-2: rgba(25, 43, 27, 0.64);
-            --c-fg-light-3: rgba(25, 43, 27, 0.38);
-            --c-accent: #c8524a;
-            --c-border: rgba(25, 43, 27, 0.16);
-            --c-border-light: rgba(25, 43, 27, 0.16);
-            --c-wm-dark: rgba(25, 43, 27, 0.055);
-            --c-wm-light: rgba(25, 43, 27, 0.055);
+            --c-bg-light-alt: #ded9ca;
+            --c-fg: #18211a;
+            --c-fg-2: rgba(24, 33, 26, 0.78);
+            --c-fg-3: rgba(24, 33, 26, 0.46);
+            --c-fg-light: #18211a;
+            --c-fg-light-2: rgba(24, 33, 26, 0.78);
+            --c-fg-light-3: rgba(24, 33, 26, 0.46);
+            --c-accent: #7a231d;
+            --c-border: rgba(24, 33, 26, 0.18);
+            --c-border-light: rgba(24, 33, 26, 0.18);
+            --c-wm-dark: rgba(24, 33, 26, 0.055);
+            --c-wm-light: rgba(24, 33, 26, 0.055);
 
-            /* Typography (1920x1080 fixed stage coordinates) */
-            --f-serif: 'Playfair Display', Georgia, serif;
-            --f-sans: 'Jost', sans-serif;
-            --f-mono: 'JetBrains Mono', monospace;
+            /* Single unified typeface across the entire deck */
+            --f-main: 'Plus Jakarta Sans', sans-serif;
+            --f-serif: var(--f-main);
+            --f-sans: var(--f-main);
+            --f-mono: var(--f-main);
 
             /* Spacing (1920x1080) */
             --pad-x: 132px;
@@ -109,8 +110,8 @@
             pointer-events: none;
             background: var(--c-bg);
             color: var(--c-fg);
-            font-family: var(--f-sans);
-            font-weight: 300;
+            font-family: var(--f-main);
+            font-weight: 400;
             transition: opacity 0.45s var(--ease-slide), visibility 0.45s var(--ease-slide);
         }
 
@@ -224,11 +225,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: var(--f-mono);
-            font-weight: 300;
-            font-size: 14px;
-            letter-spacing: 0.14em;
+            font-family: var(--f-main);
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
+            font-variant-numeric: tabular-nums;
             color: var(--c-fg-2);
             flex-shrink: 0;
         }
@@ -286,22 +288,22 @@
         }
 
         /* ===========================================
-           GROVE TYPOGRAPHY & SIGNATURE ELEMENTS
+           UNIFIED TYPOGRAPHY HIERARCHY (HIGH CONTRAST)
            =========================================== */
         .kicker {
-            font-family: var(--f-mono);
-            font-weight: 300;
-            font-size: 14px;
-            letter-spacing: 0.16em;
+            font-family: var(--f-main);
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: var(--c-accent);
+            color: var(--c-fg-2);
         }
 
         .rule-coral {
             width: var(--rule-short);
-            height: 1px;
+            height: 2px;
             background: var(--c-accent);
-            margin: 14px 0 20px 0;
+            margin: 12px 0 18px 0;
         }
 
         .rule-full {
@@ -315,39 +317,41 @@
             background: var(--c-border-light);
         }
 
-        /* Playfair Display — STRICTLY WEIGHT 400 (NEVER BOLD) */
         .display-title {
-            font-family: var(--f-serif);
-            font-weight: 400;
-            font-size: 108px;
-            line-height: 1.05;
-            letter-spacing: -0.015em;
+            font-family: var(--f-main);
+            font-weight: 700;
+            font-size: 92px;
+            line-height: 1.06;
+            letter-spacing: -0.03em;
             color: var(--c-fg);
         }
 
         .h1-statement {
-            font-family: var(--f-serif);
-            font-weight: 400;
-            font-size: 74px;
-            line-height: 1.15;
-            letter-spacing: -0.01em;
+            font-family: var(--f-main);
+            font-weight: 600;
+            font-size: 62px;
+            line-height: 1.16;
+            letter-spacing: -0.025em;
             color: var(--c-fg);
             max-width: 1520px;
         }
 
         .h2 {
-            font-family: var(--f-serif);
-            font-weight: 400;
-            font-size: 56px;
+            font-family: var(--f-main);
+            font-weight: 600;
+            font-size: 48px;
             line-height: 1.16;
-            letter-spacing: -0.01em;
+            letter-spacing: -0.02em;
+            color: var(--c-fg);
         }
 
         .h3 {
-            font-family: var(--f-serif);
-            font-weight: 400;
-            font-size: 34px;
+            font-family: var(--f-main);
+            font-weight: 600;
+            font-size: 30px;
             line-height: 1.25;
+            letter-spacing: -0.015em;
+            color: var(--c-fg);
         }
 
         /* Italic emphasis in the SAME uniform ink color (no mid-text color switch) */
@@ -358,13 +362,13 @@
         .quote-text em {
             color: inherit;
             font-style: italic;
-            font-weight: 400;
+            font-weight: inherit;
         }
 
         .lead {
-            font-family: var(--f-sans);
-            font-weight: 300;
-            font-size: 27px;
+            font-family: var(--f-main);
+            font-weight: 400;
+            font-size: 25px;
             line-height: 1.55;
             color: var(--c-fg-2);
         }
@@ -374,9 +378,9 @@
         }
 
         .body-text {
-            font-family: var(--f-sans);
-            font-weight: 300;
-            font-size: 23px;
+            font-family: var(--f-main);
+            font-weight: 400;
+            font-size: 21px;
             line-height: 1.6;
         }
 
@@ -402,32 +406,33 @@
 
         .em-list li {
             display: grid;
-            grid-template-columns: 36px 1fr;
+            grid-template-columns: 32px 1fr;
             align-items: start;
-            font-size: 23px;
+            font-size: 21px;
             line-height: 1.52;
-            font-weight: 300;
-        }
-
-        .em-list li::before {
-            content: "—";
-            font-family: var(--f-mono);
-            font-weight: 300;
-            color: var(--c-accent);
-            font-size: 22px;
-            line-height: 1.52;
-        }
-
-        .em-lead {
             font-weight: 400;
             color: var(--c-fg);
         }
 
-        .slide--light .em-lead {
-            color: var(--c-fg-light);
+        .em-list li::before {
+            content: "—";
+            font-family: var(--f-main);
+            font-weight: 600;
+            color: var(--c-accent);
+            font-size: 20px;
+            line-height: 1.52;
         }
 
-        /* Grove Stat Blocks (flat hairline only, zero fill) */
+        .em-lead {
+            font-weight: 600;
+            color: inherit;
+        }
+
+        .slide--light .em-lead {
+            color: inherit;
+        }
+
+        /* Grove Stat Blocks (flat hairline only, zero fill, high contrast) */
         .stat-grid {
             display: grid;
             gap: 44px;
@@ -446,24 +451,25 @@
         }
 
         .grove-stat__val {
-            font-family: var(--f-serif);
-            font-weight: 400;
-            font-size: 68px;
-            line-height: 1.04;
-            letter-spacing: -0.02em;
-            color: var(--c-accent);
+            font-family: var(--f-main);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            font-size: 60px;
+            line-height: 1.06;
+            letter-spacing: -0.025em;
+            color: var(--c-fg);
             margin-bottom: 10px;
         }
 
         .grove-stat__val--sm {
-            font-size: 54px;
+            font-size: 46px;
         }
 
         .grove-stat__lbl {
-            font-family: var(--f-mono);
-            font-weight: 300;
+            font-family: var(--f-main);
+            font-weight: 600;
             font-size: 13px;
-            letter-spacing: 0.13em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--c-fg);
             margin-bottom: 6px;
@@ -474,10 +480,10 @@
         }
 
         .grove-stat__sub {
-            font-family: var(--f-sans);
-            font-weight: 300;
-            font-size: 18px;
-            line-height: 1.4;
+            font-family: var(--f-main);
+            font-weight: 400;
+            font-size: 17px;
+            line-height: 1.45;
             color: var(--c-fg-2);
         }
 
@@ -563,24 +569,25 @@
         .grove-table {
             width: 100%;
             border-collapse: collapse;
-            font-family: var(--f-sans);
-            font-weight: 300;
+            font-family: var(--f-main);
+            font-weight: 400;
+            font-variant-numeric: tabular-nums;
         }
 
         .grove-table th {
-            font-family: var(--f-mono);
-            font-weight: 300;
+            font-family: var(--f-main);
+            font-weight: 600;
             font-size: 13px;
-            letter-spacing: 0.13em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             text-align: left;
             padding: 14px 12px;
-            border-bottom: 1px solid var(--c-accent);
-            color: var(--c-fg-2);
+            border-bottom: 2px solid var(--c-fg);
+            color: var(--c-fg);
         }
 
         .grove-table td {
-            font-size: 21px;
+            font-size: 20px;
             padding: 16px 12px;
             border-bottom: 1px solid var(--c-border);
             color: var(--c-fg);
@@ -593,14 +600,12 @@
         .grove-table td.num,
         .grove-table th.num {
             text-align: right;
-            font-family: var(--f-mono);
             font-size: 18px;
         }
 
         .grove-table td.score-hi {
             color: var(--c-fg);
-            font-family: var(--f-mono);
-            font-weight: 400;
+            font-weight: 600;
             text-align: right;
         }
 
@@ -618,20 +623,20 @@
         }
 
         .quote-mark {
-            font-family: var(--f-serif);
-            font-weight: 400;
-            font-size: 112px;
-            line-height: 0.5;
-            color: var(--c-accent);
-            margin-bottom: 16px;
+            font-family: var(--f-main);
+            font-weight: 700;
+            font-size: 72px;
+            line-height: 0.65;
+            color: var(--c-fg);
+            margin-bottom: 12px;
         }
 
         .quote-text {
-            font-family: var(--f-serif);
+            font-family: var(--f-main);
             font-style: italic;
-            font-weight: 400;
-            font-size: 31px;
-            line-height: 1.38;
+            font-weight: 500;
+            font-size: 27px;
+            line-height: 1.42;
             color: var(--c-fg-light);
         }
 
@@ -649,26 +654,27 @@
         }
 
         .finding-item__kicker {
-            font-family: var(--f-mono);
-            font-weight: 300;
-            font-size: 13px;
-            letter-spacing: 0.14em;
+            font-family: var(--f-main);
+            font-weight: 600;
+            font-size: 12.5px;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--c-accent);
+            color: var(--c-fg-2);
             margin-bottom: 6px;
         }
 
         .finding-item__val {
-            font-family: var(--f-serif);
-            font-weight: 400;
-            font-size: 32px;
+            font-family: var(--f-main);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            font-size: 30px;
             color: var(--c-fg-light);
             margin-bottom: 4px;
         }
 
         .finding-item__txt {
-            font-size: 18px;
-            line-height: 1.42;
+            font-size: 17px;
+            line-height: 1.44;
             color: var(--c-fg-light-2);
         }
 
