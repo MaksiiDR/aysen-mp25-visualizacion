@@ -1,2 +1,6 @@
 /// Ruta local a la carpeta powerbi\data con los 8 CSV del modelo estrella.
 expression CarpetaDatos = "C:\Users\maksiidr\Documents\Clases\Visualizacion\Proyecto\Entrega Final\powerbi\data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: ae138287-f74f-4cc3-9f8a-9ea0be6a581f
+
+	annotation PBI_ResultType = Text
+

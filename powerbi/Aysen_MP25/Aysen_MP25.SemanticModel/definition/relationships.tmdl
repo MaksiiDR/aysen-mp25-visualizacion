@@ -33,3 +33,9 @@ relationship 'Clusters PCA a Calendario'
 relationship 'Rosa Vientos a Estacion'
 	fromColumn: 'Rosa Vientos'.'Estacion ID'
 	toColumn: Estacion.'Estacion ID'
+
+relationship aadfcb43-4901-4a4d-852d-2822d7f7aab2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Calidad Aire Diaria'.'Ano Mes'
+	toColumn: LocalDateTable_1f2ac33d-7f85-4e82-8447-57488e0f7610.Date
+

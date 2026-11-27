@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "p3000000000000000006",
   "position": {
     "x": 24,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Calendario.Fecha",
-              "nativeQueryRef": "Fecha"
+              "nativeQueryRef": "Fecha",
+              "active": true
             }
           ]
         },
@@ -49,6 +50,24 @@
             }
           ]
         },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Clusters PCA"
+                    }
+                  },
+                  "Property": "MP2,5 Promedio Regimen"
+                }
+              },
+              "queryRef": "Clusters PCA.MP2,5 Promedio Regimen",
+              "nativeQueryRef": "MP2,5 Promedio Regimen"
+            }
+          ]
+        },
         "X": {
           "projections": [
             {
@@ -63,7 +82,8 @@
                 }
               },
               "queryRef": "Clusters PCA.PC1 Promedio",
-              "nativeQueryRef": "PC1 Promedio"
+              "nativeQueryRef": "PC1 Promedio",
+              "active": true
             }
           ]
         },
@@ -82,24 +102,6 @@
               },
               "queryRef": "Clusters PCA.PC2 Promedio",
               "nativeQueryRef": "PC2 Promedio"
-            }
-          ]
-        },
-        "Size": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Clusters PCA"
-                    }
-                  },
-                  "Property": "MP2,5 Promedio Regimen"
-                }
-              },
-              "queryRef": "Clusters PCA.MP2,5 Promedio Regimen",
-              "nativeQueryRef": "MP2,5 Promedio Regimen"
             }
           ]
         }
@@ -315,5 +317,79 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b64fa30e2374de8564d6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calendario"
+              }
+            },
+            "Property": "Fecha"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "5c1ad6a27e8311bfecc8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Clusters PCA"
+              }
+            },
+            "Property": "Regimen"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "2b45e915460e1cd1afae",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Clusters PCA"
+              }
+            },
+            "Property": "PC1 Promedio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7b93e124d7b6fc417bba",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Clusters PCA"
+              }
+            },
+            "Property": "PC2 Promedio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1386dbb3c3d38bd5caab",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Clusters PCA"
+              }
+            },
+            "Property": "MP2,5 Promedio Regimen"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

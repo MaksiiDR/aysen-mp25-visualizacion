@@ -1,67 +1,81 @@
 /// Dimension de estaciones de monitoreo SINCA en la Region de Aysen.
 table Estacion
+	lineageTag: c9d9f3bf-9812-49c1-b189-fd58363a866f
 
 	/// Identificador tecnico de la estacion SINCA.
 	column 'Estacion ID'
 		dataType: string
-		isKey
 		isHidden
+		isKey
+		lineageTag: f17425f3-6bb5-4634-8de6-9b7d115c1bd9
 		summarizeBy: none
 		sourceColumn: station_id
 
 	/// Nombre visible de la estacion.
 	column Estacion
 		dataType: string
+		lineageTag: 95882257-e254-4019-959d-e632e024053b
 		summarizeBy: none
 		sourceColumn: station_name
 
 	/// Ciudad de ubicacion de la estacion.
 	column Ciudad
 		dataType: string
+		lineageTag: d6657ef3-ed33-4a48-82cd-9e9da3c2e145
 		dataCategory: City
 		summarizeBy: none
 		sourceColumn: city
 
 	/// Latitud geografica (grados decimales).
 	column Latitud
-		dataType: decimal
-		dataCategory: Latitude
+		dataType: double
 		formatString: 0.0000
-		summarizeBy: none
+		lineageTag: 301f1149-de58-47bf-8b2b-f6f87f8cddaa
+		dataCategory: Latitude
+		summarizeBy: sum
 		sourceColumn: lat
+
+		annotation SummarizationSetBy = Automatic
 
 	/// Longitud geografica (grados decimales).
 	column Longitud
-		dataType: decimal
-		dataCategory: Longitude
+		dataType: double
 		formatString: 0.0000
-		summarizeBy: none
+		lineageTag: b12f1326-9289-4923-9987-9fc88bceb389
+		dataCategory: Longitude
+		summarizeBy: sum
 		sourceColumn: lon
+
+		annotation SummarizationSetBy = Automatic
 
 	/// Indica si la estacion dispone de rosa de vientos historica SINCA.
 	column 'Tiene Rosa Vientos'
 		dataType: boolean
+		lineageTag: 8243d726-1363-423f-be5c-229e262769e1
 		summarizeBy: none
 		sourceColumn: has_wind_rose
 
 	/// Indica si la estacion dispone de meteorologia horaria.
 	column 'Tiene Meteorologia Horaria'
 		dataType: boolean
+		lineageTag: 3c2ef3a3-fb99-46fe-81cb-33a97db80f77
 		summarizeBy: none
 		sourceColumn: has_met_hourly
 
 	/// Rol analitico de la estacion en el estudio.
 	column Rol
 		dataType: string
+		lineageTag: 7fcee88f-13f3-4ea7-afbe-157b74ecf899
 		summarizeBy: none
 		sourceColumn: role
 
 	partition Estacion = m
 		mode: import
 		source =
-			let
-				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\dim_estacion.csv"), [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"station_id", type text}, {"station_name", type text}, {"city", type text}, {"lat", type number}, {"lon", type number}, {"has_wind_rose", type logical}, {"has_met_hourly", type logical}, {"role", type text}}, "en-US")
-			in
-				#"Changed Type"
+				let
+					Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\dim_estacion.csv"), [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"station_id", type text}, {"station_name", type text}, {"city", type text}, {"lat", type number}, {"lon", type number}, {"has_wind_rose", type logical}, {"has_met_hourly", type logical}, {"role", type text}}, "en-US")
+				in
+					#"Changed Type"
+

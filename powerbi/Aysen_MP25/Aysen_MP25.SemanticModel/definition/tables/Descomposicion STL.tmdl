@@ -1,75 +1,100 @@
 /// Descomposicion estacional-tendencia robusta (STL) mensual del MP2,5 por estacion.
 table 'Descomposicion STL'
+	lineageTag: 9e4a6fe4-c200-43d7-b905-11093d77232a
 
 	/// Promedio mensual observado de MP2,5 (ug/m3).
 	measure 'MP2,5 Mensual Observado' = AVERAGE('Descomposicion STL'[Observado MP2,5])
 		formatString: #,##0.0
 		displayFolder: Series de Tiempo
+		lineageTag: 774ee743-f606-4228-bb94-0e4c270458ab
 
 	/// Componente de tendencia estructural extraido mediante STL robusto.
 	measure 'Tendencia STL' = AVERAGE('Descomposicion STL'[Tendencia])
 		formatString: #,##0.0
 		displayFolder: Series de Tiempo
+		lineageTag: b43a9729-77a7-416c-968b-298a90cbbae3
 
 	/// Componente estacional mensual extraido mediante STL robusto.
 	measure 'Estacionalidad STL' = AVERAGE('Descomposicion STL'[Estacionalidad])
 		formatString: #,##0.0
 		displayFolder: Series de Tiempo
+		lineageTag: 30d72c80-6c68-4322-928c-8dd7002f7d65
 
 	column Fecha
 		dataType: dateTime
 		isHidden
 		formatString: yyyy-mm-dd
+		lineageTag: 31b31df1-3b4c-47c1-873b-118eec4a4cb5
 		summarizeBy: none
 		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column 'Estacion ID'
 		dataType: string
 		isHidden
+		lineageTag: 40e86a6b-8bd0-467e-aae7-d5e4f8322d1d
 		summarizeBy: none
 		sourceColumn: station_id
 
 	column 'Observado MP2,5'
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.0
-		summarizeBy: none
+		lineageTag: d735995d-90a7-4a2c-a34b-38f4022fde0c
+		summarizeBy: sum
 		sourceColumn: observed_mp25
 
+		annotation SummarizationSetBy = Automatic
+
 	column 'Entrada STL'
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.0
-		summarizeBy: none
+		lineageTag: 8dbc453d-2a85-4a30-94f0-5e801c2ecd6e
+		summarizeBy: sum
 		sourceColumn: stl_input_mp25
+
+		annotation SummarizationSetBy = Automatic
 
 	column 'Fue Interpolado'
 		dataType: boolean
+		lineageTag: aec395b0-8454-42ef-a3cf-7997d701777b
 		summarizeBy: none
 		sourceColumn: was_interpolated
 
 	column Tendencia
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.0
-		summarizeBy: none
+		lineageTag: d3bd3272-53d9-48cf-8dac-457acda358da
+		summarizeBy: sum
 		sourceColumn: trend
 
+		annotation SummarizationSetBy = Automatic
+
 	column Estacionalidad
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.0
-		summarizeBy: none
+		lineageTag: 4d80fbcc-2b5b-4cf2-bca0-2eb11654b628
+		summarizeBy: sum
 		sourceColumn: seasonal
 
+		annotation SummarizationSetBy = Automatic
+
 	column Residuo
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.0
-		summarizeBy: none
+		lineageTag: 19e9d3d0-a0fb-41bc-a5ef-836a555e401c
+		summarizeBy: sum
 		sourceColumn: resid
+
+		annotation SummarizationSetBy = Automatic
 
 	partition 'Descomposicion STL' = m
 		mode: import
 		source =
-			let
-				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_stl_descomposicion.csv"), [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"station_id", type text}, {"observed_mp25", type number}, {"stl_input_mp25", type number}, {"was_interpolated", type logical}, {"trend", type number}, {"seasonal", type number}, {"resid", type number}}, "en-US")
-			in
-				#"Changed Type"
+				let
+					Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_stl_descomposicion.csv"), [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"station_id", type text}, {"observed_mp25", type number}, {"stl_input_mp25", type number}, {"was_interpolated", type logical}, {"trend", type number}, {"seasonal", type number}, {"resid", type number}}, "en-US")
+				in
+					#"Changed Type"
+

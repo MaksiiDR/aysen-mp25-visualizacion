@@ -1,143 +1,182 @@
 /// Auditoria anual de completitud de datos, estado de validacion y episodios YTD por estacion.
 table 'Resumen Anual'
+	lineageTag: 67023923-29ee-4756-aa6d-860b9ea23ec0
 
 	/// Porcentaje de dias validos del ano calendario.
 	measure 'Completitud Anual' = AVERAGE('Resumen Anual'[Completitud Ano Pct]) / 100
 		formatString: 0.0%
 		displayFolder: Auditoria Anual
+		lineageTag: 4cdf062e-0ceb-4150-b980-6eae5f485959
 
 	/// Porcentaje de dias validos en temporada invernal (abr-sep).
 	measure 'Completitud Invierno' = AVERAGE('Resumen Anual'[Completitud Invierno Pct]) / 100
 		formatString: 0.0%
 		displayFolder: Auditoria Anual
+		lineageTag: 721d7a28-137b-4e73-b964-264f2d7e714c
 
 	/// Dias sobre norma (>50 ug/m3) en la ventana comparable 1 ene - 23 oct.
 	measure 'Dias >50 YTD' = SUM('Resumen Anual'[Dias Sobre 50 YTD])
 		formatString: #,##0
 		displayFolder: Auditoria Anual
+		lineageTag: 2316c8a5-168c-4e39-8fde-bf153e075b0b
 
 	/// Promedio invernal anual de MP2,5 (ug/m3).
 	measure 'MP2,5 Invierno Anual' = AVERAGE('Resumen Anual'[MP2,5 Medio Invierno])
 		formatString: #,##0.0
 		displayFolder: Auditoria Anual
+		lineageTag: 0f3f7456-7ab7-47e8-9b7e-57bafd8969b7
 
 	column 'Estacion ID'
 		dataType: string
 		isHidden
+		lineageTag: f4447eac-8e78-44f1-9771-9e56f3b2ae16
 		summarizeBy: none
 		sourceColumn: station_id
 
 	column Ano
 		dataType: int64
 		formatString: 0
+		lineageTag: 4b94dd77-eade-4fc2-b5a0-7c298e36ca1a
 		summarizeBy: none
 		sourceColumn: year
 
 	column 'Dias Esperados'
 		dataType: int64
 		formatString: #,##0
+		lineageTag: 93004deb-3825-48a7-872b-59c7f8cb52cb
 		summarizeBy: none
 		sourceColumn: expected_days
 
 	column 'Dias Validos MP2,5'
 		dataType: int64
 		formatString: #,##0
+		lineageTag: d49381ca-e938-4b5a-873c-30da77229f80
 		summarizeBy: none
 		sourceColumn: valid_days_mp25
 
 	column 'Completitud Ano Pct'
-		dataType: decimal
+		dataType: double
 		formatString: 0.0
-		summarizeBy: none
+		lineageTag: 33e40dd7-2cab-440e-ad53-835dfb90c1c5
+		summarizeBy: sum
 		sourceColumn: completeness_year_pct
+
+		annotation SummarizationSetBy = Automatic
 
 	column 'Dias Validos Invierno'
 		dataType: int64
 		formatString: #,##0
+		lineageTag: 142fd84a-422e-4e4f-9506-961bf2fe71fa
 		summarizeBy: none
 		sourceColumn: valid_days_winter
 
 	column 'Completitud Invierno Pct'
-		dataType: decimal
+		dataType: double
 		formatString: 0.0
-		summarizeBy: none
+		lineageTag: b1a908c2-e1a7-4cde-97f0-5d53c0c2df94
+		summarizeBy: sum
 		sourceColumn: completeness_winter_pct
+
+		annotation SummarizationSetBy = Automatic
 
 	column 'Dias Validos YTD'
 		dataType: int64
 		formatString: #,##0
+		lineageTag: 7a806023-8504-42fb-bb74-c6c172b24b5e
 		summarizeBy: none
 		sourceColumn: valid_days_ytd
 
 	column 'Completitud YTD Pct'
-		dataType: decimal
+		dataType: double
 		formatString: 0.0
-		summarizeBy: none
+		lineageTag: ce4e8804-8dac-489b-8278-856bdf87c672
+		summarizeBy: sum
 		sourceColumn: completeness_ytd_pct
+
+		annotation SummarizationSetBy = Automatic
 
 	column 'Ano Completo'
 		dataType: boolean
+		lineageTag: f1f131b7-a15d-42ee-879e-bbeec4b4f5f2
 		summarizeBy: none
 		sourceColumn: is_complete_year
 
 	column 'Invierno Completo'
 		dataType: boolean
+		lineageTag: e515b614-6f86-4cbd-ae9f-479a48c67519
 		summarizeBy: none
 		sourceColumn: is_complete_winter
 
 	column 'YTD Completo'
 		dataType: boolean
+		lineageTag: 44cde1cf-f4f3-4942-b87c-68f67a46a18d
 		summarizeBy: none
 		sourceColumn: is_complete_ytd
 
 	column 'MP2,5 Medio Anual'
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.0
-		summarizeBy: none
+		lineageTag: 881be029-2516-46ec-a3e6-e13918ea192a
+		summarizeBy: sum
 		sourceColumn: mean_mp25_all
 
+		annotation SummarizationSetBy = Automatic
+
 	column 'MP2,5 Medio Invierno'
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.0
-		summarizeBy: none
+		lineageTag: 489434ed-2afa-4f3d-bdaa-ad6b1bcaf29b
+		summarizeBy: sum
 		sourceColumn: mean_mp25_winter
 
+		annotation SummarizationSetBy = Automatic
+
 	column 'MP2,5 Medio YTD'
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.0
-		summarizeBy: none
+		lineageTag: 4083c236-40cb-4dfb-93f4-1ba15d242362
+		summarizeBy: sum
 		sourceColumn: mean_mp25_ytd
+
+		annotation SummarizationSetBy = Automatic
 
 	column 'Dias Sobre 50 Anual'
 		dataType: int64
 		formatString: #,##0
+		lineageTag: 186004d9-df33-4d97-90eb-34f66398bf3b
 		summarizeBy: none
 		sourceColumn: days_over_50_all
 
 	column 'Dias Sobre 50 Invierno'
 		dataType: int64
 		formatString: #,##0
+		lineageTag: c04ee26d-3976-4dd6-928e-499f7ba0edf2
 		summarizeBy: none
 		sourceColumn: days_over_50_winter
 
 	column 'Dias Sobre 50 YTD'
 		dataType: int64
 		formatString: #,##0
+		lineageTag: c77f69b9-a3c1-4ab5-81e6-ef6a4af46961
 		summarizeBy: none
 		sourceColumn: days_over_50_ytd
 
 	column 'Pct Preliminar o No Validado'
-		dataType: decimal
+		dataType: double
 		formatString: 0.0
-		summarizeBy: none
+		lineageTag: ad2288ea-e4f7-4038-9028-62cc80d74eab
+		summarizeBy: sum
 		sourceColumn: pct_days_prelim_or_noval
+
+		annotation SummarizationSetBy = Automatic
 
 	partition 'Resumen Anual' = m
 		mode: import
 		source =
-			let
-				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_resumen_anual_completitud.csv"), [Delimiter=",", Columns=19, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"station_id", type text}, {"year", Int64.Type}, {"expected_days", Int64.Type}, {"valid_days_mp25", Int64.Type}, {"completeness_year_pct", type number}, {"valid_days_winter", Int64.Type}, {"completeness_winter_pct", type number}, {"valid_days_ytd", Int64.Type}, {"completeness_ytd_pct", type number}, {"is_complete_year", type logical}, {"is_complete_winter", type logical}, {"is_complete_ytd", type logical}, {"mean_mp25_all", type number}, {"mean_mp25_winter", type number}, {"mean_mp25_ytd", type number}, {"days_over_50_all", Int64.Type}, {"days_over_50_winter", Int64.Type}, {"days_over_50_ytd", Int64.Type}, {"pct_days_prelim_or_noval", type number}}, "en-US")
-			in
-				#"Changed Type"
+				let
+					Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\fact_resumen_anual_completitud.csv"), [Delimiter=",", Columns=19, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"station_id", type text}, {"year", Int64.Type}, {"expected_days", Int64.Type}, {"valid_days_mp25", Int64.Type}, {"completeness_year_pct", type number}, {"valid_days_winter", Int64.Type}, {"completeness_winter_pct", type number}, {"valid_days_ytd", Int64.Type}, {"completeness_ytd_pct", type number}, {"is_complete_year", type logical}, {"is_complete_winter", type logical}, {"is_complete_ytd", type logical}, {"mean_mp25_all", type number}, {"mean_mp25_winter", type number}, {"mean_mp25_ytd", type number}, {"days_over_50_all", Int64.Type}, {"days_over_50_winter", Int64.Type}, {"days_over_50_ytd", Int64.Type}, {"pct_days_prelim_or_noval", type number}}, "en-US")
+				in
+					#"Changed Type"
+

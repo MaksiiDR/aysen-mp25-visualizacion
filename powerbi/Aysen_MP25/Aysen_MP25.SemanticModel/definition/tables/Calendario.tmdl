@@ -1,5 +1,6 @@
 /// Dimension calendario oficial con indicadores de temporada invernal y ventana YTD comparable.
 table Calendario
+	lineageTag: e6a54ba7-e74b-48ad-8dff-05f6460aa2b2
 	dataCategory: Time
 
 	/// Fecha calendario (clave primaria).
@@ -7,13 +8,17 @@ table Calendario
 		dataType: dateTime
 		isKey
 		formatString: yyyy-mm-dd
+		lineageTag: dbaf761c-ce3b-460a-b4da-60a73913c73f
 		summarizeBy: none
 		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	/// Ano calendario.
 	column Ano
 		dataType: int64
 		formatString: 0
+		lineageTag: ef0c5c3e-8c97-4f71-afd8-ec670a95025b
 		summarizeBy: none
 		sourceColumn: year
 
@@ -21,12 +26,14 @@ table Calendario
 	column Mes
 		dataType: int64
 		formatString: 0
+		lineageTag: 6edaa1d9-67c6-4ae9-bcdd-a1f3bfcadfc3
 		summarizeBy: none
 		sourceColumn: month
 
 	/// Nombre abreviado del mes ordenado cronologicamente.
 	column 'Mes Nombre'
 		dataType: string
+		lineageTag: ae2e782b-ec16-4c14-99b9-a708720b519d
 		summarizeBy: none
 		sourceColumn: month_name
 		sortByColumn: Mes
@@ -34,6 +41,7 @@ table Calendario
 	/// Trimestre calendario (T1 a T4).
 	column Trimestre
 		dataType: string
+		lineageTag: 72ae3186-fd8b-4612-990c-e840f752e017
 		summarizeBy: none
 		sourceColumn: quarter
 
@@ -41,39 +49,45 @@ table Calendario
 	column 'Dia Semana'
 		dataType: int64
 		formatString: 0
+		lineageTag: 9167cc31-f138-4535-bd44-d997329fe23f
 		summarizeBy: none
 		sourceColumn: day_of_week
 
 	/// Indica si corresponde a fin de semana.
 	column 'Es Fin de Semana'
 		dataType: boolean
+		lineageTag: 02fc6e79-50be-4e82-b1ff-0d231d5b13f5
 		summarizeBy: none
 		sourceColumn: is_weekend
 
 	/// Temporada invernal de gestion de episodios criticos (abril a septiembre).
 	column 'Temporada Invernal'
 		dataType: boolean
+		lineageTag: 045bbd91-d3a2-4b41-94a8-c8a547806c20
 		summarizeBy: none
 		sourceColumn: is_winter_season
 
 	/// Ventana comparable 1 ene - 23 oct para comparar 2026 sin sesgo con anos previos.
 	column 'Ventana YTD Comparable'
 		dataType: boolean
+		lineageTag: 662dd5c4-f857-4034-a4c4-ae3f171f95e1
 		summarizeBy: none
 		sourceColumn: is_ytd_comparable
 
 	/// Estado de completitud del ano calendario (Completo vs Parcial hasta 23-oct-2026).
 	column 'Estado Ano'
 		dataType: string
+		lineageTag: 0a802a4a-0cee-4ac7-8a9f-b313ad0d94d2
 		summarizeBy: none
 		sourceColumn: year_status
 
 	partition Calendario = m
 		mode: import
 		source =
-			let
-				Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\dim_fecha.csv"), [Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"year", Int64.Type}, {"month", Int64.Type}, {"month_name", type text}, {"quarter", type text}, {"day_of_week", Int64.Type}, {"is_weekend", type logical}, {"is_winter_season", type logical}, {"is_ytd_comparable", type logical}, {"year_status", type text}}, "en-US")
-			in
-				#"Changed Type"
+				let
+					Source = Csv.Document(File.Contents(#"CarpetaDatos" & "\dim_fecha.csv"), [Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+					#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"date", type date}, {"year", Int64.Type}, {"month", Int64.Type}, {"month_name", type text}, {"quarter", type text}, {"day_of_week", Int64.Type}, {"is_weekend", type logical}, {"is_winter_season", type logical}, {"is_ytd_comparable", type logical}, {"year_status", type text}}, "en-US")
+				in
+					#"Changed Type"
+

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "p1000000000000000008",
   "position": {
     "x": 736,
@@ -28,25 +28,6 @@
               },
               "queryRef": "Estacion.Estacion",
               "nativeQueryRef": "Estacion",
-              "active": true
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Calidad Aire Diaria"
-                    }
-                  },
-                  "Property": "Dias Sobre Norma"
-                }
-              },
-              "queryRef": "Calidad Aire Diaria.Dias Sobre Norma",
-              "nativeQueryRef": "Dias Sobre Norma",
               "active": true
             }
           ]
@@ -80,6 +61,25 @@
               },
               "queryRef": "Calidad Aire Diaria.Completitud MP2,5",
               "nativeQueryRef": "Completitud MP2,5"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calidad Aire Diaria"
+                    }
+                  },
+                  "Property": "Dias Sobre Norma"
+                }
+              },
+              "queryRef": "Calidad Aire Diaria.Dias Sobre Norma",
+              "nativeQueryRef": "Dias Sobre Norma",
+              "active": true
             }
           ]
         }
@@ -301,5 +301,65 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e12eab8ada26c39e10ba",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Estacion"
+              }
+            },
+            "Property": "Estacion"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "5675a4d3f72d653af98f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calidad Aire Diaria"
+              }
+            },
+            "Property": "Dias Sobre Norma"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e0e697c0c898692a0f9b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calidad Aire Diaria"
+              }
+            },
+            "Property": "MP2,5 Promedio 24h"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2d4f616e3cc07e46411d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calidad Aire Diaria"
+              }
+            },
+            "Property": "Completitud MP2,5"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

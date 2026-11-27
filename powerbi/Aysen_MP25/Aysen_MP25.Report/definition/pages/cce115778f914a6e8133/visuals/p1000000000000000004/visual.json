@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "p1000000000000000004",
   "position": {
     "x": 504,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Calendario.Ventana YTD Comparable",
-              "nativeQueryRef": "Ventana YTD Comparable"
+              "nativeQueryRef": "Ventana YTD Comparable",
+              "active": true
             }
           ]
         }
@@ -76,6 +77,11 @@
               }
             }
           }
+        }
+      ],
+      "general": [
+        {
+          "properties": {}
         }
       ]
     },

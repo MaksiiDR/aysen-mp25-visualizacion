@@ -1,8 +1,17 @@
 model Model
 	culture: es-CL
 	defaultPowerBIDataSourceVersion: powerBI_V3
-	sourceQueryCulture: en-US
 	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Estacion","Calendario","Calidad Aire Diaria","Ciclo Horario Mensual","Resumen Anual","Descomposicion STL","Clusters PCA","Rosa Vientos","CarpetaDatos"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
 
 ref table Estacion
 ref table Calendario
@@ -12,3 +21,6 @@ ref table 'Resumen Anual'
 ref table 'Descomposicion STL'
 ref table 'Clusters PCA'
 ref table 'Rosa Vientos'
+ref table DateTableTemplate_1527aef6-7ca3-4f8c-9236-8d55c477b025
+ref table LocalDateTable_1f2ac33d-7f85-4e82-8447-57488e0f7610
+
