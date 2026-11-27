@@ -2,15 +2,15 @@
 
 **Grupo N° 2:** Maximiliano del Río Lincoñir y Patricio Aylwin Retamal  
 **Asignatura:** EIN092B Visualización — Prof. Jorge Portilla (UTFSM)  
-**División sugerida:** **Maximiliano** Slides 1–8 (4:15) · **Patricio** Slides 9–14 (3:45)  
+**División sugerida:** **Patricio** Slides 1–8 (4:15) · **Maximiliano** Slides 9–14 (3:45)  
 *Al final del documento viene el **Glosario rápido** con qué significa y cómo se dice cada sigla técnica.*
 
 ---
 
-## Parte 1 — Maximiliano (Slides 1 a 8 · 4:15 min)
+## Parte 1 — Patricio (Slides 1 a 8 · 4:15 min)
 
 ### Slide 1 · Portada `[0:00 – 0:20 | 20 s]`
-> "Buenos días profesor y compañeros. Somos el Grupo 2, integrado por Patricio Aylwin y Maximiliano del Río. Hoy presentamos nuestro análisis visual y temporal de los episodios de **MP2,5 y clima en la Región de Aysén**, usando 13 años de datos oficiales del SINCA entre 2013 y 2026."
+> "Buenos días profesor y compañeros. Somos el Grupo 2, integrado por Maximiliano del Río y quien les habla, Patricio Aylwin. Hoy presentamos nuestro análisis visual y temporal de los episodios de **MP2,5 y clima en la Región de Aysén**, usando 13 años de datos oficiales del SINCA entre 2013 y 2026."
 
 ### Slide 2 · Contexto y Problemática `[0:20 – 0:55 | 35 s]`
 > "Partamos por qué es el **MP2,5**: son partículas microscópicas de humo —unas 25 veces más finas que un cabello— que pasan los filtros de la nariz y llegan directo al pulmón y a la sangre. En Coyhaique vienen principalmente de la calefacción a leña entre abril y septiembre.  
@@ -40,14 +40,14 @@
 
 ### Slide 8 · Exhibit 01: Tendencia STL y Categorías GEC `[3:40 – 4:15 | 35 s]`
 > "Aquí se ve la evidencia. A la izquierda, la línea de tendencia limpia muestra la baja sostenida en Coyhaique II y en Puerto Aysén —que bajó 4,4 días por año en invierno— y confirma que las ciudades se mueven muy sincronizadas, con correlación sobre 0,82.  
-> A la derecha, las barras apiladas de Coyhaique II muestran la caída desde 156 días en 2014 hasta 75 en 2021, pero la barra achurada de 2026 marca el repunte: 99 días sobre norma, con **33 preemergencias y 15 emergencias**. Ahora sigue Patricio con el ciclo diario, el clima y el cierre."
+> A la derecha, las barras apiladas de Coyhaique II muestran la caída desde 156 días en 2014 hasta 75 en 2021, pero la barra achurada de 2026 marca el repunte: 99 días sobre norma, con **33 preemergencias y 15 emergencias**. Ahora sigue Maximiliano con el ciclo diario, el clima y el cierre."
 
 ---
 
-## Parte 2 — Patricio (Slides 9 a 14 · 3:45 min)
+## Parte 2 — Maximiliano (Slides 9 a 14 · 3:45 min)
 
 ### Slide 9 · Exhibit 02: Ciclo Horario y Estacional `[4:15 – 4:45 | 30 s]`
-> "Gracias Maximiliano. Al mirar las horas del día en Coyhaique II aparece el patrón típico de la leña. En invierno el promedio es **77,7 µg/m³**, más de **5 veces** el resto del año.  
+> "Gracias Patricio. Al mirar las horas del día en Coyhaique II aparece el patrón típico de la leña. En invierno el promedio es **77,7 µg/m³**, más de **5 veces** el resto del año.  
 > Dentro de un día de invierno hay dos subidas: una a las 8 de la mañana, un mínimo a las **14:00 horas** cuando el sol ventila el aire, y un salto fuerte desde las 18:00 hasta la medianoche, llegando en junio a un promedio de **191,8 µg/m³ a las 9 de la noche**."
 
 ### Slide 10 · Exhibit 03: Meteorología y Viento `[4:45 – 5:25 | 40 s]`
