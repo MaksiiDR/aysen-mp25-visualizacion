@@ -1488,15 +1488,15 @@
                             </div>
 
                             <div style="display: flex; flex-direction: column; gap: 24px;">
-                                <div class="kicker">CAPA 2 · PAQUETE POWER BI (ESQUEMA ESTRELLA)</div>
+                                <div class="kicker">CAPA 2 · PROYECTO POWER BI DESKTOP (PBIP + TMDL + PBIR)</div>
                                 <ul class="em-list" style="gap: 18px;">
-                                    <li><span data-editable><span class="em-lead">2 dimensiones:</span> dim_estacion (coordenadas) y dim_fecha con banderas is_ytd_comparable e is_winter_season.</span></li>
-                                    <li><span data-editable><span class="em-lead">6 tablas de hechos:</span> Diaria DS 12, matriz 12×24, completitud anual, STL, PCA/clusters y rosa de vientos (carga total 0,089 s).</span></li>
-                                    <li><span data-editable><span class="em-lead">Medidas DAX:</span> Cumplimiento DS 12, categorías GEC, tasa YTD y clima en episodios listas en medidas.dax.</span></li>
+                                    <li><span data-editable><span class="em-lead">Modelo estrella TMDL:</span> 8 tablas (2 dimensiones + 6 hechos), 9 relaciones 1→* y 32 medidas DAX con parámetro CarpetaDatos (carga 0,089 s).</span></li>
+                                    <li><span data-editable><span class="em-lead">Informe PBIR (3 páginas, 22 visuales):</span> Resumen Regional + Azure Map, Series STL/Matriz Horaria y Clima/PCA/Viento.</span></li>
+                                    <li><span data-editable><span class="em-lead">Validación oficial CLI:</span> Esquema verificado con 0 errores y 0 advertencias (Aysen_MP25.pbip listo para abrir y actualizar).</span></li>
                                 </ul>
 
                                 <div class="editorial-box--dark" style="margin-top: 6px;">
-                                    <div class="kicker" style="margin-bottom: 8px;">REPOSITORIO REPRODUCIBLE</div>
+                                    <div class="kicker" style="margin-bottom: 8px;">REPOSITORIO REPRODUCIBLE (CÓDIGO + DASH + POWER BI PBIP)</div>
                                     <div style="font-family: var(--f-mono); font-size: 20px; color: var(--c-fg); letter-spacing: 0.03em;">
                                         https://github.com/MaksiiDR/aysen-mp25-visualizacion
                                     </div>
@@ -1536,7 +1536,7 @@
                                     <li><span data-editable><span class="em-lead">13 años oficiales:</span> Más de 98% de completitud de MP2,5 en Coyhaique II y auditoría de 25 series SINCA.</span></li>
                                     <li><span data-editable><span class="em-lead">Control del año 2026:</span> Tratamiento auditable de vacíos, regla DS 12 y ventana YTD comparable sin sesgos.</span></li>
                                     <li><span data-editable><span class="em-lead">Rigor cuantitativo:</span> STL robusto, K-Means estable (ARI 0,974), validación temporal y selección visual objetiva.</span></li>
-                                    <li><span data-editable><span class="em-lead">Transferencia lista:</span> Esquema estrella y DAX preparados para despliegue directo en Power BI.</span></li>
+                                    <li><span data-editable><span class="em-lead">Transferencia completa:</span> Proyecto Power BI (PBIP + TMDL + PBIR) construido y validado con esquema estrella y 32 medidas DAX.</span></li>
                                 </ul>
                             </div>
 
