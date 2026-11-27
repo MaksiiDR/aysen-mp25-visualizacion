@@ -10,7 +10,7 @@
     "tabOrder": 8
   },
   "visual": {
-    "visualType": "azureMap",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -33,72 +33,6 @@
           ]
         },
         "Y": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Estacion"
-                        }
-                      },
-                      "Property": "Latitud"
-                    }
-                  },
-                  "Function": 1
-                }
-              },
-              "queryRef": "Avg(Estacion.Latitud)",
-              "nativeQueryRef": "Avg of Latitud",
-              "active": true
-            }
-          ]
-        },
-        "X": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Estacion"
-                        }
-                      },
-                      "Property": "Longitud"
-                    }
-                  },
-                  "Function": 1
-                }
-              },
-              "queryRef": "Avg(Estacion.Longitud)",
-              "nativeQueryRef": "Avg of Longitud",
-              "active": true
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Estacion"
-                    }
-                  },
-                  "Property": "Ciudad"
-                }
-              },
-              "queryRef": "Estacion.Ciudad",
-              "nativeQueryRef": "Ciudad"
-            }
-          ]
-        },
-        "Size": {
           "projections": [
             {
               "field": {
@@ -152,7 +86,7 @@
       }
     },
     "objects": {
-      "bubbleLayer": [
+      "labels": [
         {
           "properties": {
             "show": {
@@ -161,14 +95,27 @@
                   "Value": "true"
                 }
               }
-            },
-            "sizeByValue": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B4332'"
+                    }
+                  }
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "Calidad Aire Diaria.Dias Sobre Norma"
           }
         }
       ]
@@ -283,7 +230,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Mapa regional de estaciones SINCA'"
+                  "Value": "'Comparacion regional de dias sobre norma (>50 ug/m3)'"
                 }
               }
             },
@@ -328,7 +275,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Tamano proporcional a dias sobre norma (>50 ug/m3) con coordenadas oficiales'"
+                  "Value": "'Total de dias criticos por estacion SINCA (sin requerir inicio de sesion)'"
                 }
               }
             },

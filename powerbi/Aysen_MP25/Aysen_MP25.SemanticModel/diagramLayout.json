@@ -1,0 +1,126 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 650.41618358417645,
+            "y": 978.82291902354336
+          },
+          "nodeIndex": "Calendario",
+          "nodeLineageTag": "8b9c6ba9-4d1f-4d15-84a3-ec82641e8cc8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 570.68590202257656,
+            "y": 625.14989256106708
+          },
+          "nodeIndex": "Calidad Aire Diaria",
+          "nodeLineageTag": "bdb01392-e837-4ea6-bef1-a48b01fd0346",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 337.00882526212069,
+            "y": -50
+          },
+          "nodeIndex": "Ciclo Horario Mensual",
+          "nodeLineageTag": "b2947633-b936-4d10-bd20-c841130262ab",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 202.90234811640221,
+            "y": 624.67377050865571
+          },
+          "nodeIndex": "Clusters PCA",
+          "nodeLineageTag": "fd29eead-307a-4f77-b254-903a66a67d7e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 857.2908154301997,
+            "y": 625.10880797649213
+          },
+          "nodeIndex": "Descomposicion STL",
+          "nodeLineageTag": "32882117-fae0-43f5-af60-5b417e8a347f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 437.41054439356253,
+            "y": 299.59030552220565
+          },
+          "nodeIndex": "Estacion",
+          "nodeLineageTag": "ede412ec-e3ac-4e82-9a2f-407c7aadc0af",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 724.43620152302242,
+            "y": -34.722768209262767
+          },
+          "nodeIndex": "Resumen Anual",
+          "nodeLineageTag": "f3b6ea74-2a79-4a72-9d1a-f2f5ff52d30f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 295.45057642892789
+          },
+          "nodeIndex": "Rosa Vientos",
+          "nodeLineageTag": "f34bbdab-2aa6-40a6-8175-3814db0564d0",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

@@ -1784,28 +1784,17 @@ def build_report() -> None:
                 ),
             },
         },
-        # Azure Map: 4 stations in Aysen
+        # Clustered Bar Chart by Station (offline-friendly replacement for Azure Map, no login required)
         {
             "$schema": VISUAL_SCHEMA,
             "name": "p1000000000000000008",
             "position": {"x": 736, "y": 256, "z": 1008, "height": 440, "width": 520, "tabOrder": 8},
             "visual": {
-                "visualType": "azureMap",
+                "visualType": "clusteredBarChart",
                 "query": {
                     "queryState": {
                         "Category": {"projections": [col_proj("Estacion", "Estacion", active=True)]},
                         "Y": {
-                            "projections": [
-                                agg_proj("Estacion", "Latitud", 1, "Avg of Latitud", active=True)
-                            ]
-                        },
-                        "X": {
-                            "projections": [
-                                agg_proj("Estacion", "Longitud", 1, "Avg of Longitud", active=True)
-                            ]
-                        },
-                        "Series": {"projections": [col_proj("Estacion", "Ciudad")]},
-                        "Size": {
                             "projections": [
                                 meas_proj("Calidad Aire Diaria", "Dias Sobre Norma", active=True)
                             ]
@@ -1819,18 +1808,17 @@ def build_report() -> None:
                     }
                 },
                 "objects": {
-                    "bubbleLayer": [
+                    "labels": [{"properties": {"show": lit("true")}}],
+                    "dataPoint": [
                         {
-                            "properties": {
-                                "show": lit("true"),
-                                "sizeByValue": lit("true"),
-                            }
+                            "properties": {"fill": solid("#1B4332")},
+                            "selector": {"metadata": "Calidad Aire Diaria.Dias Sobre Norma"},
                         }
-                    ]
+                    ],
                 },
                 "visualContainerObjects": card_vco(
-                    "Mapa regional de estaciones SINCA",
-                    "Tamano proporcional a dias sobre norma (>50 ug/m3) con coordenadas oficiales",
+                    "Comparacion regional de dias sobre norma (>50 ug/m3)",
+                    "Total de dias criticos por estacion SINCA (sin requerir inicio de sesion)",
                 ),
             },
         },
